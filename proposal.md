@@ -16,6 +16,10 @@ The data that will be used in this project will include information on food item
 
 The database schema for this project will include tables for ingredients, recipes, and meal plans. The schema will also include a table for users (nutritionists) to store their clients' information and meal plans.
 
+![capstone_schema](https://user-images.githubusercontent.com/87880250/218606227-3ff8345f-e224-46f8-b1f3-32be839f06a5.png)
+
+
+
 ### Issues with API:
 
 One potential issue with the API could be the accuracy and consistency of the nutritional information provided. It is important to ensure that the data being used is up-to-date and reliable.
