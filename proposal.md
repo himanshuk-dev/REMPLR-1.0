@@ -58,6 +58,7 @@ The Meal Plan Creator goes beyond the basic CRUD (Create, Read, Update, Delete) 
 	3. Addition of a recipe database that clients can access and use to find new and healthy recipes.
 	4. Integration with fitness tracking apps to provide clients with a comprehensive approach to health 
 		and wellness.
+	5. Payments API to integrate later: https://developer.squareup.com/ca/en?country_redirection=true
 
 	By incorporating these stretch goals, the Meal Plan Creator will provide a comprehensive and convenient 
 	tool for clients to manage their health and wellness with the help of their nutritionist.
