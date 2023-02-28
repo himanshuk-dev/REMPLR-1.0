@@ -12,6 +12,11 @@ The data that will be used in this project will include information on food item
 
 ## Approach:
 
+### API:
+
+The API I'll be using to build my project:
+https://spoonacular.com/food-api
+
 ### Database schema:
 
 The database schema for this project will include tables for ingredients, recipes, and meal plans. The schema will also include a table for users (nutritionists) to store their clients' information and meal plans.
