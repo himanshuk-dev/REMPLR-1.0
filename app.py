@@ -15,6 +15,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///REMPLR'
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = "lounge-BARBICAN-3158!"
+app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
 connect_db(app)
 
@@ -45,8 +46,15 @@ def register():
         email = form.email.data
         password = form.password.data
         role = form.role.data
-        new_user = User.register(username, email, first_name, last_name, password, role)
         
+        # Check if the user already exists
+        existing_user = User.query.filter((User.username == username) | (User.email == email)).first()
+        if existing_user:
+            flash('The username or email is already taken', 'danger')
+            return redirect('/Register')
+        
+        # create the new user
+        new_user = User.register(username, email, first_name, last_name, password, role)
         db.session.add(new_user)
         db.session.commit()
         session['user_id'] = new_user.id

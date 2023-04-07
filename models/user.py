@@ -20,7 +20,7 @@ class User(db.Model):
     meal_plan_id = db.Column(db.Integer, db.ForeignKey('meal_plans.id'))
 
     # Define one-to-many relationship between nutritionists and clients
-    clients = db.relationship('User', backref='nutritionist', remote_side=[id], lazy=True)
+    # clients = db.relationship('User', backref='nutritionist', remote_side=[id], lazy=True)
     
     # Define one-to-many relationship between user and meal plans
     meal_plan = db.relationship('MealPlan', backref='users')
