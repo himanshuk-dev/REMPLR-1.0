@@ -1,5 +1,9 @@
 from database import db
 from models.mealplan import MealPlan
+from flask_bcrypt import Bcrypt
+
+bcrypt = Bcrypt()
+
 
 class User(db.Model):
     '''Model for users table | Role defines: Nutritionists or Client'''
@@ -23,3 +27,24 @@ class User(db.Model):
 
     def __repr__(self):
         return f'<User {self.email}>'
+    
+    @classmethod
+    def register(cls, username, email, first_name, last_name, pwd, role):
+        """Register user with hashed password & return user."""
+
+        hashed = bcrypt.generate_password_hash(pwd)
+        # turn bytestring into normal (unicode utf8) string
+        hashed_utf8 = hashed.decode("utf8")
+
+        # return instance of user w/username and hashed pwd
+        return cls(username=username, email=email, first_name=first_name, last_name=last_name, password=hashed_utf8, role=role)
+    
+    @classmethod
+    def authenticate(cls, username, pwd):
+        '''Authenticate user with username and password and return user'''
+        
+        user = User.query.filter_by(username = username).first()
+        if user and bcrypt.check_password_hash(user.password, pwd):
+            return user
+        else:
+            return False
