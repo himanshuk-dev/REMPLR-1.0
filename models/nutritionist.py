@@ -5,10 +5,10 @@ from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt()
 
 
-class User(db.Model):
+class Nutritionist(db.Model):
     '''Model for users table | Role defines: Nutritionists or Client'''
     
-    __tablename__ = 'users'
+    __tablename__ = 'nutritionists'
     
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.Text, nullable=False, unique=True)
@@ -18,9 +18,6 @@ class User(db.Model):
     password = db.Column(db.String(120), nullable=False)
     role = db.Column(db.String(50), nullable=False)
     meal_plan_id = db.Column(db.Integer, db.ForeignKey('meal_plans.id'))
-
-    # Define one-to-many relationship between nutritionists and clients
-    # clients = db.relationship('User', backref='nutritionist', remote_side=[id], lazy=True)
     
     # Define one-to-many relationship between user and meal plans
     meal_plan = db.relationship('MealPlan', backref='users')
@@ -28,8 +25,10 @@ class User(db.Model):
     def __repr__(self):
         return f'<User {self.email}>'
     
+    
+    
     @classmethod
-    def register(cls, username, email, first_name, last_name, pwd, role):
+    def register(cls, username, email, first_name, last_name, pwd):
         """Register user with hashed password & return user."""
 
         hashed = bcrypt.generate_password_hash(pwd)
@@ -37,13 +36,13 @@ class User(db.Model):
         hashed_utf8 = hashed.decode("utf8")
 
         # return instance of user w/username and hashed pwd
-        return cls(username=username, email=email, first_name=first_name, last_name=last_name, password=hashed_utf8, role=role)
+        return cls(username=username, email=email, first_name=first_name, last_name=last_name, password=hashed_utf8)
     
     @classmethod
     def authenticate(cls, username, pwd):
         '''Authenticate user with username and password and return user'''
         
-        user = User.query.filter_by(username = username).first()
+        user = Nutritionist.query.filter_by(username = username).first()
         if user and bcrypt.check_password_hash(user.password, pwd):
             return user
         else:

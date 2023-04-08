@@ -14,7 +14,6 @@ class RegisterForm(FlaskForm):
     last_name = StringField('Last Name', validators=[InputRequired()])
     email = EmailField('Email', validators=[InputRequired()])
     password = PasswordField('Password', validators=[InputRequired()])
-    role = SelectField('Role', coerce=str, choices=['Nutritionist', 'Client'])
     
     
     

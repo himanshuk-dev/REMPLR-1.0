@@ -1,10 +1,13 @@
+# TO DO: Update nutritionist and client registration
+
 from flask import Flask, render_template, flash, session, redirect
 from flask_debugtoolbar import DebugToolbarExtension
 from database import db, connect_db
 from models.ingredient import Ingredient
 from models.recipe import Recipe
 from models.mealplan import MealPlan
-from models.user import User
+from models.nutritionist import Nutritionist
+from models.client import Client
 from forms import RegisterForm, LoginForm
 
 app = Flask(__name__)
@@ -28,14 +31,21 @@ def home():
     '''Homepage'''
     if session.get('user_id'):    
         user_id = session['user_id']
-        user = User.query.get_or_404(user_id)
+        user = Nutritionist.query.get_or_404(user_id) | Client.query.get_or_404(user_id)
         return render_template('index.html', user = user)
     else:
         return render_template('index.html')
     
 @app.route('/Register', methods=['GET', 'POST'] )
 def register():
-    '''Show User registration form'''
+    '''Show Registration page'''
+    
+    return render_template('register.html')
+    
+
+@app.route('/Register/nutritionist', methods=['GET', 'POST'] )
+def register():
+    '''Show registration form for nutritionist'''
     
     form = RegisterForm()
     
@@ -48,13 +58,43 @@ def register():
         role = form.role.data
         
         # Check if the user already exists
-        existing_user = User.query.filter((User.username == username) | (User.email == email)).first()
+        existing_user = Nutritionist.query.filter((Nutritionist.username == username) | (Nutritionist.email == email)).first()
         if existing_user:
             flash('The username or email is already taken', 'danger')
             return redirect('/Register')
         
         # create the new user
-        new_user = User.register(username, email, first_name, last_name, password, role)
+        new_nutritionist = Nutritionist.register(username, email, first_name, last_name, password, role)
+        db.session.add(new_nutritionist)
+        db.session.commit()
+        session['user_id'] = new_nutritionist.id 
+        flash('Welcome! Successfully Created Your Account!', "success")
+        return redirect(f'/users/{new_nutritionist.username}')
+    
+    return render_template('register.html', form=form)
+
+@app.route('/Register/client', methods=['GET', 'POST'] )
+def register():
+    '''Show registration form for client'''
+    
+    form = RegisterForm()
+    
+    if form.validate_on_submit():
+        username = form.username.data
+        first_name = form.first_name.data
+        last_name = form.last_name.data
+        email = form.email.data
+        password = form.password.data
+        role = form.role.data
+        
+        # Check if the user already exists
+        existing_user = Nutritionist.query.filter((Nutritionist.username == username) | (Nutritionist.email == email)).first() | Client.query.filter((Client.username == username) | (Client.email == email)).first()
+        if existing_user:
+            flash('The username or email is already taken', 'danger')
+            return redirect('/Register')
+        
+        # create the new user
+        new_user = Nutritionist.register(username, email, first_name, last_name, password, role) | Client.register(username, email, first_name, last_name, password, role)
         db.session.add(new_user)
         db.session.commit()
         session['user_id'] = new_user.id
@@ -62,8 +102,8 @@ def register():
         return redirect(f'/users/{new_user.username}')
     
     return render_template('register.html', form=form)
-    
-    
+
+
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
     '''Show login form'''
@@ -72,7 +112,7 @@ def login():
     if form.validate_on_submit():
         username = form.username.data
         password = form.password.data
-        user = User.authenticate(username, password)
+        user = Nutritionist.authenticate(username, password) | Client.authenticate(username, password)
         if user:
             flash(f"Welcome back, {user.username}!", 'primary')
             session['user_id'] = user.id
