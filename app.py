@@ -1,5 +1,3 @@
-# TO DO: Update nutritionist and client registration
-
 from flask import Flask, render_template, flash, session, redirect
 from flask_debugtoolbar import DebugToolbarExtension
 from database import db, connect_db
@@ -27,10 +25,10 @@ toolbar = DebugToolbarExtension(app)
 
 
 @app.route('/')
-def home():
+def root():
     '''Homepage'''
-    if session.get('user_id'):    
-        user_id = session['user_id']
+    if session.get('nutritionist_id') or session.get('client_id'):    
+        user_id = session['nutritionist_id'] or session['client_id']
         user = Nutritionist.query.get_or_404(user_id) | Client.query.get_or_404(user_id)
         return render_template('index.html', user = user)
     else:
@@ -43,7 +41,7 @@ def register():
     return render_template('register.html')
     
 
-@app.route('/Register/nutritionist', methods=['GET', 'POST'] )
+@app.route('/register/nutritionist', methods=['GET', 'POST'] )
 def register_nutritionist():
     '''Show registration form for nutritionist'''
     
@@ -72,7 +70,7 @@ def register_nutritionist():
     
     return render_template('register_nutritionist.html', form=form)
 
-@app.route('/Register/client', methods=['GET', 'POST'] )
+@app.route('/register/client', methods=['GET', 'POST'] )
 def register_client():
     '''Show registration form for client'''
     
@@ -124,14 +122,14 @@ def login():
 def user_info(username):
     '''Show user details page'''
     
-    user = User.query.filter_by(username = username).first()
+    user = Nutritionist.query.filter_by(username = username).first() or Client.query.filter_by(username = username).first()
     return render_template('user_info.html', user = user)
 
 @app.route('/logout')
 def logout():
     '''Logout user'''
     
-    session.pop('user_id')
+    session.pop('nutritionist_id') or session.pop('client_id')
     flash("Goodbye!", "info")
     return redirect('/')
 
@@ -139,10 +137,10 @@ def logout():
 @app.route('/users/<username>/delete')
 def delete_user(username):
     if(session['user_id']):
-        user = User.query.filter_by(username = username).first()
+        user = Nutritionist.query.filter_by(username = username).first() or Client.query.filter_by(username = username).first()
         
         db.session.delete(user)
         db.session.commit()
-        session.pop('user_id')
+        session.pop('nutritionist_id') or session.pop('client_id')
         flash(f'User: {username} deleted!')
     return redirect('/')

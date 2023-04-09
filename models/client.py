@@ -6,7 +6,7 @@ bcrypt = Bcrypt()
 
 
 class Client(db.Model):
-    '''Model for users table | Role defines: Nutritionists or Client'''
+    '''Model for clients table'''
     
     __tablename__ = 'clients'
     

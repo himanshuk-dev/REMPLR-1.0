@@ -1,0 +1,19 @@
+{% extends 'base.html' %} {% block title %}REMPLR | Register | Nutritionist{% endblock title %}
+{%block content %}
+<div class=" p-3">
+  <h1 class="display-1">Register as Nutritionist</h1>
+  <p class="lead">Register below to start helping your clients!</p>
+
+  <form method="POST">
+    {{form.hidden_tag()}} {% for field in form if field.widget.input_type !=
+    'hidden' %}
+    <p>{{field.label}} {{field(class_="form-control")}}</p>
+    {% for error in field.errors %}
+    <span class="form-text text-danger">{{ error }}</span>
+    {% endfor %}
+    </p>
+    {% endfor %}
+  <button class="btn btn-success" type="submit">Register</button>
+</form>
+</div>
+{% endblock content %}
