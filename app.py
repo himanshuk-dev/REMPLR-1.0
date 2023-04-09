@@ -44,7 +44,7 @@ def register():
     
 
 @app.route('/Register/nutritionist', methods=['GET', 'POST'] )
-def register():
+def register_nutritionist():
     '''Show registration form for nutritionist'''
     
     form = RegisterForm()
@@ -55,26 +55,25 @@ def register():
         last_name = form.last_name.data
         email = form.email.data
         password = form.password.data
-        role = form.role.data
         
         # Check if the user already exists
         existing_user = Nutritionist.query.filter((Nutritionist.username == username) | (Nutritionist.email == email)).first()
         if existing_user:
             flash('The username or email is already taken', 'danger')
-            return redirect('/Register')
+            return redirect('/Register/nutritionist')
         
         # create the new user
-        new_nutritionist = Nutritionist.register(username, email, first_name, last_name, password, role)
+        new_nutritionist = Nutritionist.register(username, email, first_name, last_name, password)
         db.session.add(new_nutritionist)
         db.session.commit()
-        session['user_id'] = new_nutritionist.id 
+        session['nutritionist_id'] = new_nutritionist.id 
         flash('Welcome! Successfully Created Your Account!', "success")
         return redirect(f'/users/{new_nutritionist.username}')
     
-    return render_template('register.html', form=form)
+    return render_template('register_nutritionist.html', form=form)
 
 @app.route('/Register/client', methods=['GET', 'POST'] )
-def register():
+def register_client():
     '''Show registration form for client'''
     
     form = RegisterForm()
@@ -85,23 +84,22 @@ def register():
         last_name = form.last_name.data
         email = form.email.data
         password = form.password.data
-        role = form.role.data
         
         # Check if the user already exists
-        existing_user = Nutritionist.query.filter((Nutritionist.username == username) | (Nutritionist.email == email)).first() | Client.query.filter((Client.username == username) | (Client.email == email)).first()
+        existing_user = Client.query.filter((Client.username == username) | (Client.email == email)).first()
         if existing_user:
             flash('The username or email is already taken', 'danger')
-            return redirect('/Register')
+            return redirect('/Register/client')
         
         # create the new user
-        new_user = Nutritionist.register(username, email, first_name, last_name, password, role) | Client.register(username, email, first_name, last_name, password, role)
-        db.session.add(new_user)
+        new_client = Client.register(username, email, first_name, last_name, password)
+        db.session.add(new_client)
         db.session.commit()
-        session['user_id'] = new_user.id
+        session['client_id'] = new_client.id
         flash('Welcome! Successfully Created Your Account!', "success")
-        return redirect(f'/users/{new_user.username}')
+        return redirect(f'/users/{new_client.username}')
     
-    return render_template('register.html', form=form)
+    return render_template('register_client.html', form=form)
 
 
 @app.route('/login', methods = ['GET', 'POST'])
