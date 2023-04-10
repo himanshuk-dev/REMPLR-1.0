@@ -132,7 +132,7 @@ main {
 
 /*
 =============== 
-Search Results
+Ingredient Search Results
 ===============
 */
 
@@ -169,4 +169,17 @@ Search Results
 
 .like-button.liked {
   color: #ff9800;
+}
+
+/*
+=============== 
+Recipes Search Inputs/ labels
+===============
+*/
+
+label,
+input[type="text"],
+select {
+  display: inline-block;
+  width: 200px;
 }
