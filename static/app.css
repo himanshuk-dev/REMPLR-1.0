@@ -132,6 +132,41 @@ main {
 
 /*
 =============== 
-Section 1
+Search Results
 ===============
 */
+
+.card {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.card h2 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.like-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  background-color: transparent;
+  border: none;
+  color: #ccc;
+  cursor: pointer;
+}
+
+.like-button.liked {
+  color: #ff9800;
+}

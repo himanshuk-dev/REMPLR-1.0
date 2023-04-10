@@ -1,3 +1,5 @@
+# TO DO: make a search page and display all the ingredients from search
+
 from flask import Flask, render_template, flash, session, redirect, request
 import requests
 from flask_debugtoolbar import DebugToolbarExtension
@@ -26,28 +28,19 @@ connect_db(app)
 toolbar = DebugToolbarExtension(app)
 
 
+# Base URL
+base_url = 'https://api.spoonacular.com/'
+
+# Image URL
+image_url = 'https://spoonacular.com/cdn/ingredients_250x250/'
+
+
 @app.route('/', methods =['GET', 'POST'])
 def root():
     '''Homepage'''
     if session.get('nutritionist_id'):
         user_id = session['nutritionist_id']
         user = Nutritionist.query.get_or_404(user_id)
-        if request.method == 'POST':
-            api_key = "ac0e17f073af4388a91d75452dfa1051"
-            search_query = request.form['search_query']
-            url = f'https://api.spoonacular.com/food/ingredients/search?query={search_query}&apiKey={api_key}'
-            response = requests.get(url)
-            data = response.json()
-            # Extract name and image of first result
-            if data['totalResults'] > 0:
-                first_result = data['results'][0]
-                name = first_result['name']
-                image = first_result['image']
-            else:
-                name = 'No results found'
-                image = ''
-            # Render the results template with the name and image            
-            return render_template('index.html', user = user, name=name, image=image)
         
         return render_template('index.html', user = user)
     
@@ -55,26 +48,46 @@ def root():
         user_id = session['client_id']
         user = Client.query.get_or_404(user_id)
         
-        if request.method == 'POST':
-            api_key = "ac0e17f073af4388a91d75452dfa1051"
-            search_query = request.form['search_query']
-            url = f'https://api.spoonacular.com/food/ingredients/search?query={search_query}&apiKey={api_key}'
-            response = requests.get(url)
-            data = response.json()
-            # Extract name and image of first result
-            if data['totalResults'] > 0:
-                first_result = data['results'][0]
-                name = first_result['name']
-                image = first_result['image']
-            else:
-                name = 'No results found'
-                image = ''
-            # Render the results template with the name and image            
-            return render_template('index.html', user = user, name=name, image=image)
-        
         return render_template('index.html', user = user)
+    
     else:
         return render_template('index.html')
+    
+@app.route('/search/ingredients', methods = ['POST'])
+def search_ingredients():
+    if session.get('nutritionist_id'):
+        user_id = session['nutritionist_id']
+        user = Nutritionist.query.get_or_404(user_id)
+
+        api_key = "ac0e17f073af4388a91d75452dfa1051"
+        search_query = request.form['search_query']
+        url = f'{base_url}/food/ingredients/search?query={search_query}&apiKey={api_key}'
+        response = requests.get(url)
+        data = response.json()
+        # Extract name and image of first result
+        
+        results = data['results']
+        print(results)
+        # Render the template with the names and images
+        return render_template('search_ingredients.html', user = user, results = results)
+    
+    elif session.get('client_id'):
+        user_id = session['client_id']
+        user = Client.query.get_or_404(user_id)
+        
+        api_key = "ac0e17f073af4388a91d75452dfa1051"
+        search_query = request.form['search_query']
+        url = f'{base_url}/food/ingredients/search?query={search_query}&apiKey={api_key}'
+        response = requests.get(url)
+        data = response.json()
+        
+        results = data['results']
+        print(results)
+        # Render the template with the names and images
+        return render_template('search_ingredients.html',user = user, results = results)
+        
+    else:
+        return redirect('/')
     
 @app.route('/Register', methods=['GET', 'POST'] )
 def register():
@@ -100,7 +113,7 @@ def register_nutritionist():
         existing_user = Nutritionist.query.filter((Nutritionist.username == username) | (Nutritionist.email == email)).first()
         if existing_user:
             flash('The username or email is already taken', 'danger')
-            return redirect('/Register/nutritionist')
+            return redirect('/register/nutritionist')
         
         # create the new user
         new_nutritionist = Nutritionist.register(username, email, first_name, last_name, password)
@@ -129,7 +142,7 @@ def register_client():
         existing_user = Client.query.filter((Client.username == username) | (Client.email == email)).first()
         if existing_user:
             flash('The username or email is already taken', 'danger')
-            return redirect('/Register/client')
+            return redirect('/register/client')
         
         # create the new user
         new_client = Client.register(username, email, first_name, last_name, password)

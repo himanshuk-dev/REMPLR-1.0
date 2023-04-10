@@ -6,7 +6,7 @@ endblock title %} {% block content %}
 {% if session['nutritionist_id'] or session['client_id']%}
 <section>
   <div class="text-right p-2 m-3">
-    <form method="post" action="/">
+    <form method="post" action="/search/ingredients">
       <label for="search_query">Search for ingredients:</label>
       <input
         class="p-1"
@@ -19,6 +19,5 @@ endblock title %} {% block content %}
     </form>
   </div>
 </section>
-<img src="{{ image }}" alt="{{ name }}" />
 
 {% endif %} {% endblock content %}

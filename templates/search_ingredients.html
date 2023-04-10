@@ -1,0 +1,49 @@
+{% extends 'base.html' %} {% block title %}REMPLR | Replenish Your Meal{%
+endblock title %} {% block content %}
+
+<!-- Search bar -->
+
+{% if session['nutritionist_id'] or session['client_id']%}
+<section>
+  <div class="text-right p-2 m-3">
+    <form method="post" action="/search/ingredients">
+      <label for="search_query">Search for ingredients:</label>
+      <input
+        class="p-1"
+        type="text"
+        name="search_query"
+        id="search_query"
+        placeholder="Enter ingredient name..."
+      />
+      <button class="btn btn-primary" type="submit">Search</button>
+    </form>
+  </div>
+</section>
+<section class="d-flex">
+  {% if results %}
+
+  <div class="card-deck row">
+    {% for data in results %}
+    <div class="col-sm-6 col-md-4 p-3">
+      <div class="card">
+        <img
+          class="card-img-top"
+          src="https://spoonacular.com/cdn/ingredients_250x250/{{data.image}}"
+          alt="{{data.name}}"
+          style="object-fit: contain"
+        />
+        <div class="card-body">
+          <h5 class="card-title">{{data.name}}</h5>
+          <p class="card-text">Enter Ingredient information here</p>
+          <p class="card-text">
+            <small class="text-muted">Enter Aisle information here</small>
+          </p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+</section>
+
+{% endif %} {% endblock content %}
