@@ -1,4 +1,5 @@
-from flask import Flask, render_template, flash, session, redirect
+from flask import Flask, render_template, flash, session, redirect, request
+import requests
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_sqlalchemy import SQLAlchemy
 from database import db, connect_db
@@ -25,17 +26,52 @@ connect_db(app)
 toolbar = DebugToolbarExtension(app)
 
 
-@app.route('/')
+@app.route('/', methods =['GET', 'POST'])
 def root():
     '''Homepage'''
     if session.get('nutritionist_id'):
         user_id = session['nutritionist_id']
         user = Nutritionist.query.get_or_404(user_id)
+        if request.method == 'POST':
+            api_key = "ac0e17f073af4388a91d75452dfa1051"
+            search_query = request.form['search_query']
+            url = f'https://api.spoonacular.com/food/ingredients/search?query={search_query}&apiKey={api_key}'
+            response = requests.get(url)
+            data = response.json()
+            # Extract name and image of first result
+            if data['totalResults'] > 0:
+                first_result = data['results'][0]
+                name = first_result['name']
+                image = first_result['image']
+            else:
+                name = 'No results found'
+                image = ''
+            # Render the results template with the name and image            
+            return render_template('index.html', user = user, name=name, image=image)
+        
         return render_template('index.html', user = user)
     
     elif session.get('client_id'):
         user_id = session['client_id']
         user = Client.query.get_or_404(user_id)
+        
+        if request.method == 'POST':
+            api_key = "ac0e17f073af4388a91d75452dfa1051"
+            search_query = request.form['search_query']
+            url = f'https://api.spoonacular.com/food/ingredients/search?query={search_query}&apiKey={api_key}'
+            response = requests.get(url)
+            data = response.json()
+            # Extract name and image of first result
+            if data['totalResults'] > 0:
+                first_result = data['results'][0]
+                name = first_result['name']
+                image = first_result['image']
+            else:
+                name = 'No results found'
+                image = ''
+            # Render the results template with the name and image            
+            return render_template('index.html', user = user, name=name, image=image)
+        
         return render_template('index.html', user = user)
     else:
         return render_template('index.html')
@@ -72,7 +108,7 @@ def register_nutritionist():
         db.session.commit()
         session['nutritionist_id'] = new_nutritionist.id 
         flash('Welcome! Successfully Created Your Account!', "success")
-        return redirect(f'/users/{new_nutritionist.username}')
+        return redirect('/')
     
     return render_template('register_nutritionist.html', form=form)
 
@@ -101,7 +137,7 @@ def register_client():
         db.session.commit()
         session['client_id'] = new_client.id
         flash('Welcome! Successfully Created Your Account!', "success")
-        return redirect(f'/users/{new_client.username}')
+        return redirect('/')
     
     return render_template('register_client.html', form=form)
 
@@ -119,11 +155,11 @@ def login():
         if nutritionist:
             flash(f"Welcome back, {nutritionist.username}!", 'primary')
             session['nutritionist_id'] = nutritionist.id
-            return redirect(f'/users/{nutritionist.username}')
+            return redirect('/')
         elif client:
             flash(f"Welcome back, {client.username}!", 'primary')
             session['client_id'] = client.id
-            return redirect(f'/users/{client.username}')
+            return redirect('/')
         else:
             form.username.errors = ['Invalid username/password.']
     
@@ -149,6 +185,8 @@ def logout():
 
 @app.route('/users/<username>/delete')
 def delete_user(username):
+    '''Delete user account'''
+    
     if(session['user_id']):
         user = Nutritionist.query.filter_by(username = username).first() or Client.query.filter_by(username = username).first()
         
@@ -157,3 +195,5 @@ def delete_user(username):
         session.pop('nutritionist_id') or session.pop('client_id')
         flash(f'User: {username} deleted!')
     return redirect('/')
+
+
