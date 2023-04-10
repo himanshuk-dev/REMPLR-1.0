@@ -1,5 +1,6 @@
 from flask import Flask, render_template, flash, session, redirect
 from flask_debugtoolbar import DebugToolbarExtension
+from flask_sqlalchemy import SQLAlchemy
 from database import db, connect_db
 from models.ingredient import Ingredient
 from models.recipe import Recipe
@@ -27,9 +28,14 @@ toolbar = DebugToolbarExtension(app)
 @app.route('/')
 def root():
     '''Homepage'''
-    if session.get('nutritionist_id') or session.get('client_id'):    
-        user_id = session['nutritionist_id'] or session['client_id']
-        user = Nutritionist.query.get_or_404(user_id) | Client.query.get_or_404(user_id)
+    if session.get('nutritionist_id'):
+        user_id = session['nutritionist_id']
+        user = Nutritionist.query.get_or_404(user_id)
+        return render_template('index.html', user = user)
+    
+    elif session.get('client_id'):
+        user_id = session['client_id']
+        user = Client.query.get_or_404(user_id)
         return render_template('index.html', user = user)
     else:
         return render_template('index.html')
@@ -108,11 +114,16 @@ def login():
     if form.validate_on_submit():
         username = form.username.data
         password = form.password.data
-        user = Nutritionist.authenticate(username, password) | Client.authenticate(username, password)
-        if user:
-            flash(f"Welcome back, {user.username}!", 'primary')
-            session['user_id'] = user.id
-            return redirect(f'/users/{user.username}')
+        nutritionist = Nutritionist.authenticate(username, password) 
+        client = Client.authenticate(username, password)
+        if nutritionist:
+            flash(f"Welcome back, {nutritionist.username}!", 'primary')
+            session['nutritionist_id'] = nutritionist.id
+            return redirect(f'/users/{nutritionist.username}')
+        elif client:
+            flash(f"Welcome back, {client.username}!", 'primary')
+            session['client_id'] = client.id
+            return redirect(f'/users/{client.username}')
         else:
             form.username.errors = ['Invalid username/password.']
     
@@ -128,8 +139,10 @@ def user_info(username):
 @app.route('/logout')
 def logout():
     '''Logout user'''
-    
-    session.pop('nutritionist_id') or session.pop('client_id')
+    if session.get('client_id'):    
+        session.pop('client_id')
+    elif session.get('nutritionist_id'):
+        session.pop('nutritionist_id') 
     flash("Goodbye!", "info")
     return redirect('/')
 

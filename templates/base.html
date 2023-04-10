@@ -23,7 +23,24 @@
     <nav class="bg-dark d-flex justify-content-between p-2">
       <a href="/" class="navbar-brand bg-dark text-light p-2">REMPLR</a>
       <ul class="nav navbar-nav flex-row float-right">
-        {% if session['user_id'] %}
+        {% if session['nutritionist_id'] %}
+        <li class="nav-item">
+          <a
+            href="/users/{{user.username}}/{{user.recipes}}"
+            class="nav-link text-light pr-3"
+            >Saved Recipes</a
+          >
+          <a
+            href="/users/{{user.username}}/{{user.meal_plans}}"
+            class="nav-link text-light pr-3"
+            >Saved Meal Plans</a
+          >
+        </li>
+        <li class="nav-item">
+          <a href="/users/{{user.username}}/#" class="nav-link text-light pr-3"
+            >My Clients</a
+          >
+        </li>
 
         <li class="nav-item">
           <a href="/users/{{user.username}}" class="nav-link text-light pr-3"
@@ -33,6 +50,30 @@
         <li class="nav-item">
           <a href="/logout" class="nav-link text-light pr-3">Logout</a>
         </li>
+
+        {% elif session['client_id'] %}
+        <li class="nav-item">
+          <a
+            href="/users/{{user.username}}/{{user.ingredients}}"
+            class="nav-link text-light pr-3"
+            >Liked Ingredients</a
+          >
+          <a
+            href="/users/{{user.username}}/{{user.meal_plans}}"
+            class="nav-link text-light pr-3"
+            >My Meal Plans</a
+          >
+        </li>
+
+        <li class="nav-item">
+          <a href="/users/{{user.username}}" class="nav-link text-light pr-3"
+            >My Account</a
+          >
+        </li>
+        <li class="nav-item">
+          <a href="/logout" class="nav-link text-light pr-3">Logout</a>
+        </li>
+
         {% else %}
         <li class="nav-item">
           <a href="/login" class="nav-link text-light pr-3">Login</a>

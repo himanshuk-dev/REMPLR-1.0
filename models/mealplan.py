@@ -9,7 +9,7 @@ class MealPlan(db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
-    recipe_id = db.Column(db.Integer, db.ForeignKey('recipes.id'), nullable=False)
+    recipe_id = db.Column(db.Integer, db.ForeignKey('recipes.id', ondelete="CASCADE"), nullable=False)
 
     # Define one-to-many relationship between meal plans and recipes
     recipe = db.relationship('Recipe', backref='meal_plans')

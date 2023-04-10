@@ -1,5 +1,5 @@
-{% extends 'base.html' %} {% block title %}User Details{% endblock title %}
-{%block content %} {% if session['user_id'] %}
+{% extends 'base.html' %} {% block title %}REMPLR | My Account{% endblock title
+%} {%block content %} {% if session['nutritionist_id'] or session['client_id']%}
 <div class="m-3">
   <h1>Hi {{user.username}}!</h1>
   <p><b>First Name:</b> {{user.first_name}}</p>
