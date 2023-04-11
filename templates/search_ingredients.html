@@ -1,7 +1,7 @@
 {% extends 'base.html' %} {% block title %}REMPLR | Replenish Your Meal{%
 endblock title %} {% block content %}
 
-<!-- Search bar -->
+<!-- Search ingredients -->
 
 {% if session['nutritionist_id'] or session['client_id']%}
 <section>
@@ -22,7 +22,7 @@ endblock title %} {% block content %}
 <section class="d-flex">
   {% if results %}
 
-  <div class="card-deck row">
+  <div class="card-deck row" id="search_ingredients">
     {% for data in results %}
     <div class="col-sm-6 col-md-4 p-3">
       <div class="card">

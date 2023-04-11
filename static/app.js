@@ -13,5 +13,6 @@ searchCriteria.addEventListener("change", function () {
     searchForm.style.display = "none";
   } else {
     nutrientsForm.style.display = "none";
+    searchForm.style.display = "block";
   }
 });

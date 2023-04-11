@@ -26,49 +26,64 @@ endblock title %} {% block content %}
 <section>
   <div class="text-center p-2 m-3">
     <h3 for="search_query">Search for Recipes</h3>
-    <form action="/search" method="post">
-      <label for="search_criteria" class="p-1">Search criteria:</label>
+    <form method="post" action="/search/recipes">
+      <label for="search_criteria" class="p-1 recipe-search-label"
+        >Search criteria:</label
+      >
       <select
         id="search_criteria"
         name="search_criteria"
-        class="p-2 bg-dark text-light"
+        class="p-2 bg-dark text-light recipe-search-label"
       >
         <option value="ingredients">Ingredients</option>
         <option value="nutrients">Nutrients</option>
       </select>
       <br />
       <div id="nutrients_form" style="display: none">
-        <label for="min_carbs" class="p-1">Minimum carbs:</label>
+        <label for="min_carbs" class="p-1 recipe-search-label"
+          >Minimum carbs:</label
+        >
         <input
           type="text"
           id="min_carbs"
           name="min_carbs"
-          class="p-1"
+          class="p-1 recipe-search-input"
           placeholder="required"
         />
         <br />
-        <label for="max_carbs" class="p-1">Maximum carbs:</label>
+        <label for="max_carbs" class="p-1 recipe-search-label"
+          >Maximum carbs:</label
+        >
         <input
           type="text"
           id="max_carbs"
           name="max_carbs"
-          class="p-1"
+          class="p-1 recipe-search-input"
           placeholder="required"
         />
         <br />
-        <label for="min_protein" class="p-1">Minimum protein:</label>
+        <label for="min_protein" class="p-1 recipe-search-label"
+          >Minimum protein:</label
+        >
         <input
           type="text"
           id="min_protein"
           name="min_protein"
-          class="p-1"
+          class="p-1 recipe-search-input"
           placeholder="required"
         />
         <br />
       </div>
       <div id="search_recipe_form">
-        <label for="search_query" class="p-1">Search for?</label>
-        <input type="text" id="search_query" name="search_query" class="p-1" />
+        <label for="search_query" class="p-1 recipe-search-label"
+          >Search for?</label
+        >
+        <input
+          type="text"
+          id="search_query"
+          name="search_query"
+          class="p-1 recipe-search-input"
+        />
         <br />
       </div>
       <button type="submit" class="btn btn-info">Search</button>

@@ -1,0 +1,86 @@
+{% extends 'base.html' %} {% block title %}REMPLR | Replenish Your Meal{%
+endblock title %} {% block content %} {% if session['nutritionist_id'] %}
+
+<!-- Section for Recipes search  -->
+
+<section>
+  <div class="text-right p-2 m-3">
+    <h3 for="search_query">Search for Recipes</h3>
+    <form action="/search/recipes" method="post">
+      <label for="search_criteria" class="p-1">Search criteria:</label>
+      <select
+        id="search_criteria"
+        name="search_criteria"
+        class="p-2 bg-dark text-light"
+      >
+        <option value="ingredients">Ingredients</option>
+        <option value="nutrients">Nutrients</option>
+      </select>
+      <br />
+      <div id="nutrients_form" style="display: none">
+        <label for="min_carbs" class="p-1">Minimum carbs:</label>
+        <input
+          type="text"
+          id="min_carbs"
+          name="min_carbs"
+          class="p-1"
+          placeholder="required"
+        />
+        <br />
+        <label for="max_carbs" class="p-1">Maximum carbs:</label>
+        <input
+          type="text"
+          id="max_carbs"
+          name="max_carbs"
+          class="p-1"
+          placeholder="required"
+        />
+        <br />
+        <label for="min_protein" class="p-1">Minimum protein:</label>
+        <input
+          type="text"
+          id="min_protein"
+          name="min_protein"
+          class="p-1"
+          placeholder="required"
+        />
+        <br />
+      </div>
+      <div id="search_recipe_form">
+        <label for="search_query" class="p-1">Search for?</label>
+        <input type="text" id="search_query" name="search_query" class="p-1" />
+        <br />
+      </div>
+      <button type="submit" class="btn btn-info">Search</button>
+    </form>
+  </div>
+</section>
+
+<!-- Section to display recipe search results  -->
+<section class="d-flex">
+  {% if results %}
+
+  <div class="card-deck row">
+    {% for data in results %}
+    <div class="col-sm-6 col-md-4 p-3">
+      <div class="card">
+        <img
+          class="card-img-top"
+          src="{{data.image}}"
+          alt="{{data.title}}"
+          style="object-fit: contain"
+        />
+        <div class="card-body">
+          <h5 class="card-title">{{data.title}}</h5>
+          <p class="card-text">Enter Recipe information here</p>
+          <p class="card-text">
+            <small class="text-muted">Liked by {{data.likes}} </small>
+          </p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+</section>
+{% endif %} {% endblock content %}
