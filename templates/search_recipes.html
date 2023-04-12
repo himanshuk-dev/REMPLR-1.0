@@ -13,7 +13,7 @@ endblock title %} {% block content %} {% if session['nutritionist_id'] %}
         name="search_criteria"
         class="p-2 bg-dark text-light"
       >
-        <option value="ingredients">Ingredients</option>
+        <option value="ingredients">Ingredients/ Item Name</option>
         <option value="nutrients">Nutrients</option>
       </select>
       <br />
@@ -48,7 +48,14 @@ endblock title %} {% block content %} {% if session['nutritionist_id'] %}
       </div>
       <div id="search_recipe_form">
         <label for="search_query" class="p-1">Search for?</label>
-        <input type="text" id="search_query" name="search_query" class="p-1" />
+        <input
+          type="text"
+          id="search_query"
+          name="search_query"
+          class="p-1"
+          placeholder="Search by Ingredient or Item Name"
+          required
+        />
         <br />
       </div>
       <button type="submit" class="btn btn-info">Search</button>
@@ -73,9 +80,6 @@ endblock title %} {% block content %} {% if session['nutritionist_id'] %}
         <div class="card-body">
           <h5 class="card-title">{{data.title}}</h5>
           <p class="card-text">Enter Recipe information here</p>
-          <p class="card-text">
-            <small class="text-muted">Liked by {{data.likes}} </small>
-          </p>
         </div>
       </div>
     </div>

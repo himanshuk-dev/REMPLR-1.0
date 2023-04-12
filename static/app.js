@@ -11,8 +11,18 @@ searchCriteria.addEventListener("change", function () {
   if (searchCriteria.value === "nutrients") {
     nutrientsForm.style.display = "block";
     searchForm.style.display = "none";
+    document.getElementById("search_query").required = false;
+    // Add required attribute to nutrients fields when they are shown
+    document.getElementById("min_carbs").required = true;
+    document.getElementById("max_carbs").required = true;
+    document.getElementById("min_protein").required = true;
   } else {
     nutrientsForm.style.display = "none";
     searchForm.style.display = "block";
+
+    // Remove required attribute from nutrients fields when they are hidden
+    document.getElementById("min_carbs").required = false;
+    document.getElementById("max_carbs").required = false;
+    document.getElementById("min_protein").required = false;
   }
 });

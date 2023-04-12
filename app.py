@@ -1,4 +1,4 @@
-# TO DO: make a search page and display all the ingredients from search
+# TO DO: Later : Change ingredients search and recipe search forms to WTForms 
 
 from flask import Flask, render_template, flash, session, redirect, request
 import requests
@@ -112,25 +112,26 @@ def search_recipes():
         
         # Search by Ingredients
         if search_criteria == "ingredients":
-            url = f"{base_url}recipes/findByIngredients?ingredients={search_query}&apiKey={api_key}"
+            
+            url = f"{base_url}recipes/complexSearch?query={search_query}&diet=vegetarian&apiKey={api_key}"
+            print(url)
             
         # Search by nutrients | user need to specify min/max carbs, min protein
         elif search_criteria == "nutrients":
             min_carbs = request.form["min_carbs"]
             max_carbs = request.form["max_carbs"]
             min_protein = request.form["min_protein"]
-            url = f"{base_url}/recipes/findByNutrients?minCarbs={min_carbs}&maxCarbs={max_carbs}&minProtein={min_protein}&apiKey={api_key}"
+            url = f"{base_url}recipes/complexSearch?minCarbs={min_carbs}&maxCarbs={max_carbs}&minProtein={min_protein}&diet=vegetarian&apiKey={api_key}"
             
         else:
             # Handle invalid search criteria
-            return "Invalid search criteria."
+            flash('Invalid search criteria', 'danger')
 
         # Make API request
         response = requests.get(url)
         results = response.json()
-
         # Render results page with data
-        return render_template("search_recipes.html", user=user, results = results)
+        return render_template("search_recipes.html", user=user, results = results['results'])
     
     else:
         return redirect('/')
