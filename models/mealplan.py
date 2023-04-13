@@ -1,6 +1,6 @@
 from database import db
 from models.recipe import Recipe
-
+from database import db, connect_db
 
 class MealPlan(db.Model):
     '''Model for meal plan table'''

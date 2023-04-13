@@ -37,6 +37,9 @@ image_url = 'https://spoonacular.com/cdn/ingredients_250x250/'
 # API Key
 api_key = "ac0e17f073af4388a91d75452dfa1051"
 
+# ===============================================
+# ************** User related Routes ************
+# ===============================================
 
 @app.route('/', methods =['GET', 'POST'])
 def root():
@@ -44,6 +47,7 @@ def root():
     if session.get('nutritionist_id'):
         user_id = session['nutritionist_id']
         user = Nutritionist.query.get_or_404(user_id)
+        
         
         return render_template('index.html', user = user)
     
@@ -55,87 +59,6 @@ def root():
     
     else:
         return render_template('index.html')
-    
-@app.route('/search/ingredients', methods = ['POST'])
-def search_ingredients():
-    '''Route to show Ingredient search Results'''
-    
-    if session.get('nutritionist_id'):
-        user_id = session['nutritionist_id']
-        user = Nutritionist.query.get_or_404(user_id)
-
-        api_key = "ac0e17f073af4388a91d75452dfa1051"
-        search_query = request.form['search_query']
-        url = f'{base_url}/food/ingredients/search?query={search_query}&apiKey={api_key}'
-        response = requests.get(url)
-        data = response.json()
-        
-        results = data['results']
-
-        # Render the template with the results
-        return render_template('search_ingredients.html', user = user, results = results)
-    
-    elif session.get('client_id'):
-        user_id = session['client_id']
-        user = Client.query.get_or_404(user_id)
-        
-        api_key = "ac0e17f073af4388a91d75452dfa1051"
-        search_query = request.form['search_query']
-        url = f'{base_url}/food/ingredients/search?query={search_query}&apiKey={api_key}'
-        response = requests.get(url)
-        data = response.json()
-        
-        results = data['results']
-        
-        # Render the template with the results
-        return render_template('search_ingredients.html',user = user, results = results)
-        
-    else:
-        return redirect('/')
-    
-    
-@app.route("/search/recipes", methods=["POST"])
-def search_recipes():
-    '''Route to show Recipes search Results'''
-    
-    if session.get('nutritionist_id'):
-        
-        user_id = session['nutritionist_id']
-        user = Nutritionist.query.get_or_404(user_id)
-        
-        # Get user input from form
-        search_query = request.form["search_query"]
-            
-        search_criteria = request.form["search_criteria"]
-
-        # Make API request based on search criteria
-        
-        # Search by Ingredients
-        if search_criteria == "ingredients":
-            
-            url = f"{base_url}recipes/complexSearch?query={search_query}&diet=vegetarian&apiKey={api_key}"
-            print(url)
-            
-        # Search by nutrients | user need to specify min/max carbs, min protein
-        elif search_criteria == "nutrients":
-            min_carbs = request.form["min_carbs"]
-            max_carbs = request.form["max_carbs"]
-            min_protein = request.form["min_protein"]
-            url = f"{base_url}recipes/complexSearch?minCarbs={min_carbs}&maxCarbs={max_carbs}&minProtein={min_protein}&diet=vegetarian&apiKey={api_key}"
-            
-        else:
-            # Handle invalid search criteria
-            flash('Invalid search criteria', 'danger')
-
-        # Make API request
-        response = requests.get(url)
-        results = response.json()
-        # Render results page with data
-        return render_template("search_recipes.html", user=user, results = results['results'])
-    
-    else:
-        return redirect('/')
-    
     
 @app.route('/Register', methods=['GET', 'POST'] )
 def register():
@@ -257,4 +180,102 @@ def delete_user(username):
         flash(f'User: {username} deleted!')
     return redirect('/')
 
+# ===============================================
+# ************ Search related Routes ************
+# ===============================================
 
+    
+@app.route('/search/ingredients', methods = ['POST'])
+def search_ingredients():
+    '''Route to show Ingredient search Results'''
+    
+    if session.get('nutritionist_id'):
+        user_id = session['nutritionist_id']
+        user = Nutritionist.query.get_or_404(user_id)
+
+        api_key = "ac0e17f073af4388a91d75452dfa1051"
+        search_query = request.form['search_query']
+        url = f'{base_url}/food/ingredients/search?query={search_query}&apiKey={api_key}'
+        response = requests.get(url)
+        data = response.json()
+        
+        results = data['results']
+
+        # Render the template with the results
+        return render_template('search_ingredients.html', user = user, results = results)
+    
+    elif session.get('client_id'):
+        user_id = session['client_id']
+        user = Client.query.get_or_404(user_id)
+        
+        api_key = "ac0e17f073af4388a91d75452dfa1051"
+        search_query = request.form['search_query']
+        url = f'{base_url}/food/ingredients/search?query={search_query}&apiKey={api_key}'
+        response = requests.get(url)
+        data = response.json()
+        
+        results = data['results']
+        
+        # Render the template with the results
+        return render_template('search_ingredients.html',user = user, results = results)
+        
+    else:
+        return redirect('/')
+    
+    
+@app.route("/search/recipes", methods=["POST"])
+def search_recipes():
+    '''Route to show Recipes search Results'''
+    
+    if session.get('nutritionist_id'):
+        
+        user_id = session['nutritionist_id']
+        user = Nutritionist.query.get_or_404(user_id)
+        
+        # Get user input from form
+        search_query = request.form["search_query"]
+            
+        search_criteria = request.form["search_criteria"]
+
+        # Make API request based on search criteria
+        
+        # Search by Ingredients
+        if search_criteria == "ingredients":
+            
+            url = f"{base_url}recipes/complexSearch?query={search_query}&diet=vegetarian&apiKey={api_key}"
+            print(url)
+            
+        # Search by nutrients | user need to specify min/max carbs, min protein
+        elif search_criteria == "nutrients":
+            min_carbs = request.form["min_carbs"]
+            max_carbs = request.form["max_carbs"]
+            min_protein = request.form["min_protein"]
+            url = f"{base_url}recipes/complexSearch?minCarbs={min_carbs}&maxCarbs={max_carbs}&minProtein={min_protein}&diet=vegetarian&apiKey={api_key}"
+            
+        else:
+            # Handle invalid search criteria
+            flash('Invalid search criteria', 'danger')
+
+        # Make API request
+        response = requests.get(url)
+        results = response.json()
+        # Render results page with data
+        return render_template("search_recipes.html", user=user, results = results['results'])
+    
+    else:
+        return redirect('/')
+    
+    
+# ===============================================
+# ************** Meal Planner Routes ************
+# ===============================================
+
+@app.route('/meal-planner')
+def meal_planner():
+    '''Render Meal Planner'''
+    
+    if session.get('nutritionist_id'):
+        user_id = session['nutritionist_id']
+        user = Nutritionist.query.get_or_404(user_id)
+        
+        return render_template('meal_planner.html', user = user)
