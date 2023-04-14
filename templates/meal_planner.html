@@ -7,10 +7,20 @@ title %} {% block content %}
   </button>
 </div>
 <div class="text-center p-4 m-3 d-flex">
-  <table>
-    <thead id="weekdays"></thead>
-    <tbody id="recipe-area"></tbody>
-  </table>
+  <form action="/meal-plan-save" method="POST">
+    <input
+      type="text"
+      id="meal_plan_name"
+      name="meal_plan_name"
+      class="p-1"
+      placeholder="Enter Meal Plan Name"
+      required
+    />
+    <table>
+      <thead id="weekdays"></thead>
+      <tbody id="recipe-area"></tbody>
+    </table>
+  </form>
 </div>
 
 <!-- Meal plan buttons to add Meal Type rows -->

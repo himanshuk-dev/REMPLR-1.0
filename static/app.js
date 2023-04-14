@@ -281,16 +281,18 @@ if (recipeForm) {
             console.log("url", recipeInfoUrl);
 
             axios.get(recipeInfoUrl).then((response) => {
-              let data = response.data;
-              console.log("data", data);
-              if (data) {
-                let recipeHtml = `
-              <div class="card border-primary">
-              <img class="card-img-top" src="${data.image}" alt="${data.title}">
-              <div class="card-body">
-                <h5 class="card-title">${data.title}</h5>
-              </div>
-            </div>`;
+              let recipe = response.data;
+              console.log("data", recipe);
+              if (recipe) {
+                let recipeHtml = `<div>
+                <input type="hidden" name="${targetCellId}" value="${recipe.id}">
+                  <div class="card border-primary">
+                    <img class="card-img-top" src="${recipe.image}" alt="${recipe.title}">
+                    <div class="card-body">
+                      <h5 class="card-title" data-recipeid="${recipe.id}">${recipe.title}</h5>
+                    </div>
+                  </div>
+                </div>`;
                 console.log("recipehtml", recipeHtml);
 
                 // Append the recipe card HTML to the targeted cell

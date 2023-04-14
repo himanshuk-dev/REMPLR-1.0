@@ -178,7 +178,10 @@ def delete_user(username):
         db.session.commit()
         session.pop('nutritionist_id') or session.pop('client_id')
         flash(f'User: {username} deleted!')
-    return redirect('/')
+        return redirect('/')
+    else:
+        flash('Login first', "danger")
+        return redirect('/')
 
 # ===============================================
 # ************ Search related Routes ************
@@ -220,6 +223,8 @@ def search_ingredients():
         return render_template('search_ingredients.html',user = user, results = results)
         
     else:
+
+        flash('Login first', "danger")
         return redirect('/')
     
     
@@ -263,6 +268,9 @@ def search_recipes():
         return render_template("search_recipes.html", user=user, results = results['results'])
     
     else:
+        
+        flash('Login first', "danger")
+        
         return redirect('/')
     
     
@@ -278,4 +286,39 @@ def meal_planner():
         user_id = session['nutritionist_id']
         user = Nutritionist.query.get_or_404(user_id)
         
+    else:
+        flash('Login first', "danger")
+        
         return render_template('meal_planner.html', user = user)
+    
+    
+@app.route('/meal-plan-save')
+def meal_plan_save():
+    '''save Meal Plan to database'''
+    
+    if session.get('nutritionist_id'):
+        user_id = session['nutritionist_id']
+        user = Nutritionist.query.get_or_404(user_id)
+        day = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday",]
+        meal = {'l': 'Lunch',
+                'd': 'Dinner',
+                's1': 'Snack1',
+                's2': 'Snack2'}
+        
+        recipe_data = request.form.to_dict()   
+        for key, value in recipe_data.items():
+            name = request.form['meal_plan_name']
+            recipe_id = value
+            td_id = key
+            meal_type = meal.td_id[0]
+            meal_day = day[td_id[2]]
+            new_meal_plan = MealPlan(name, recipe_id, meal_type, meal_day)
+            
+            db.session.add(new_meal_plan)
+            db.session.commit()
+        flash('Saved Meal Plan', "success")
+    
+    else:
+        flash('Login first', "danger")
+    
+    return redirect('/meal-planner')

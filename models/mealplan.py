@@ -9,10 +9,9 @@ class MealPlan(db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
-    recipe_id = db.Column(db.Integer, db.ForeignKey('recipes.id', ondelete="CASCADE"), nullable=False)
-
-    # Define one-to-many relationship between meal plans and recipes
-    recipe = db.relationship('Recipe', backref='meal_plans')
+    recipe_id = db.Column(db.Integer, nullable=False)
+    meal_type = db.Column(db.String, nullable = False)
+    meal_day = db.Column(db.String, nullable = False)
 
     def __repr__(self):
         return f'<MealPlan {self.name}>'
