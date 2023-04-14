@@ -197,14 +197,16 @@ let targetCellId;
 const recipeArea = document.getElementById("recipe-area");
 const recipeWindow = document.getElementById("recipeWindow");
 
-recipeArea.addEventListener("click", (event) => {
-  const clickedCell = event.target;
-  if (clickedCell.tagName === "TD") {
-    targetCellId = clickedCell.id;
-  }
-  recipeWindow.style.display = "block";
-});
-console.log(targetCellId);
+if (recipeArea) {
+  recipeArea.addEventListener("click", (event) => {
+    const clickedCell = event.target;
+    if (clickedCell.tagName === "TD") {
+      targetCellId = clickedCell.id;
+    }
+    recipeWindow.style.display = "block";
+  });
+}
+
 /*
 =================================================
 Handle Recipe Search Window on meal planner page
@@ -215,21 +217,25 @@ Handle Recipe Search Window on meal planner page
 var closeBtn = document.getElementsByClassName("close")[0];
 
 // When the user clicks the close button, close the Window
-closeBtn.onclick = function () {
-  recipeWindow.style.display = "none";
-};
+if (closeBtn) {
+  closeBtn.onclick = function () {
+    recipeWindow.style.display = "none";
+  };
+}
 
 // When the user clicks anywhere outside of the Window, close it
-window.onclick = function (event) {
-  if (event.target == recipeWindow) {
-    recipeWindow.style.display = "none";
-  }
-};
+if (window) {
+  window.onclick = function (event) {
+    if (event.target == recipeWindow) {
+      recipeWindow.style.display = "none";
+    }
+  };
+}
 
+let recipeForm = document.getElementById("recipeForm");
 // When the user submits the recipe search form, fetch the search results
-document
-  .getElementById("recipeForm")
-  .addEventListener("submit", function (event) {
+if (recipeForm) {
+  recipeForm.addEventListener("submit", function (event) {
     event.preventDefault();
     let searchQuery = document.getElementById("searchQuery").value;
     let apiUrl = `${base_url}recipes/complexSearch?query=${searchQuery}&diet=vegetarian&apiKey=${apiKey}`;
@@ -254,3 +260,4 @@ document
         console.error("Error fetching recipe search results:", error);
       });
   });
+}
