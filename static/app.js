@@ -249,7 +249,15 @@ if (recipeForm) {
         if (data.results.length > 0) {
           for (var i = 0; i < data.results.length; i++) {
             var recipe = data.results[i];
-            var recipeHtml = `<h3>${recipe.title}</h3><img src="${recipe.image}" alt="${recipe.title}"><p>${recipe.summary}</p>`;
+            var recipeHtml = `<div class="col-sm-6 col-md-4 p-3">
+              <div class="card border-primary">
+              <img class="card-img-top" src="${recipe.image}" alt="${recipe.title}">
+              <div class="card-body">
+                <h5 class="card-title">${recipe.title}</h5>
+              </div>
+              <button type="button" class="btn btn-primary p-3">Add</button>
+              </div>
+            </div>`;
             recipeResults.insertAdjacentHTML("beforeend", recipeHtml);
           }
         } else {

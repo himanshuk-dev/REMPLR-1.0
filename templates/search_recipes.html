@@ -70,7 +70,7 @@ title %} {% block content %} {% if session['nutritionist_id'] %}
   <div class="card-deck row">
     {% for data in results %}
     <div class="col-sm-6 col-md-4 p-3">
-      <div class="card">
+      <div class="card" id="recipe-result">
         <img
           class="card-img-top"
           src="{{data.image}}"
