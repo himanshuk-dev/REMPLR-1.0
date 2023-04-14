@@ -1,4 +1,4 @@
-const base_url = "https://api.spoonacular.com";
+const base_url = "https://api.spoonacular.com/";
 let apiKey = "ac0e17f073af4388a91d75452dfa1051";
 
 /** Search for Recipes on homepage **/
@@ -204,7 +204,7 @@ recipeArea.addEventListener("click", (event) => {
   }
   recipeWindow.style.display = "block";
 });
-
+console.log(targetCellId);
 /*
 =================================================
 Handle Recipe Search Window on meal planner page
@@ -231,8 +231,9 @@ document
   .getElementById("recipeForm")
   .addEventListener("submit", function (event) {
     event.preventDefault();
-    var searchQuery = document.getElementById("searchQuery").value;
-    var apiUrl = `${base_url}recipes/complexSearch?query=${searchQuery}&diet=vegetarian&apiKey=${apiKey}`;
+    let searchQuery = document.getElementById("searchQuery").value;
+    let apiUrl = `${base_url}recipes/complexSearch?query=${searchQuery}&diet=vegetarian&apiKey=${apiKey}`;
+
     axios
       .get(apiUrl)
       .then((response) => {
