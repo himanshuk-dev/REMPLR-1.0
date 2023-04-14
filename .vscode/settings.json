@@ -1,3 +1,10 @@
 {
-  "cSpell.words": ["jsonify", "REMPLR", "Spoonacular", "SQLALCHEMY", "wtforms"]
+  "cSpell.words": [
+    "jsonify",
+    "recipeid",
+    "REMPLR",
+    "Spoonacular",
+    "SQLALCHEMY",
+    "wtforms"
+  ]
 }

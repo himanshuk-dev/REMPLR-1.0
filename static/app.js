@@ -198,13 +198,16 @@ const recipeArea = document.getElementById("recipe-area");
 const recipeWindow = document.getElementById("recipeWindow");
 
 if (recipeArea) {
-  recipeArea.addEventListener("click", (event) => {
+  function recipeAreaEventListener(event) {
     const clickedCell = event.target;
     if (clickedCell.tagName === "TD") {
       targetCellId = clickedCell.id;
+      console.log("clicked", targetCellId);
     }
     recipeWindow.style.display = "block";
-  });
+  }
+
+  recipeArea.addEventListener("click", recipeAreaEventListener);
 }
 
 /*
@@ -214,7 +217,7 @@ Handle Recipe Search Window on meal planner page
 */
 
 // Get the close button element
-var closeBtn = document.getElementsByClassName("close")[0];
+let closeBtn = document.getElementsByClassName("close")[0];
 
 // When the user clicks the close button, close the Window
 if (closeBtn) {
@@ -233,6 +236,7 @@ if (window) {
 }
 
 let recipeForm = document.getElementById("recipeForm");
+
 // When the user submits the recipe search form, fetch the search results
 if (recipeForm) {
   recipeForm.addEventListener("submit", function (event) {
@@ -243,23 +247,72 @@ if (recipeForm) {
     axios
       .get(apiUrl)
       .then((response) => {
-        var recipeResults = document.getElementById("recipeResults");
+        let recipeResults = document.getElementById("recipeResults");
         recipeResults.innerHTML = "";
-        var data = response.data;
+        let data = response.data;
         if (data.results.length > 0) {
-          for (var i = 0; i < data.results.length; i++) {
-            var recipe = data.results[i];
-            var recipeHtml = `<div class="col-sm-6 col-md-4 p-3">
+          for (let i = 0; i < data.results.length; i++) {
+            let recipe = data.results[i];
+            let recipeHtml = `<div class="col-sm-6 col-md-4 p-3">
               <div class="card border-primary">
               <img class="card-img-top" src="${recipe.image}" alt="${recipe.title}">
               <div class="card-body">
                 <h5 class="card-title">${recipe.title}</h5>
               </div>
-              <button type="button" class="btn btn-primary p-3">Add</button>
+              <button type="button" class="btn btn-primary p-3" data-recipeid="${recipe.id}">Add</button>
               </div>
             </div>`;
             recipeResults.insertAdjacentHTML("beforeend", recipeHtml);
           }
+
+          // Handle add recipe button in recipe search window
+
+          // Get the Add button element
+          const addButton = document.querySelector(".btn-primary");
+
+          // Add a click event listener to the Add button
+          addButton.addEventListener("click", (event) => {
+            console.log(event.target.dataset);
+            let recipeId = event.target.dataset.recipeid;
+            // Get the targeted cell element by ID
+            const targetCell = document.getElementById(targetCellId);
+
+            const recipeInfoUrl = `${base_url}recipes/${recipeId}/information?apiKey=${apiKey}`;
+            console.log("url", recipeInfoUrl);
+
+            axios.get(recipeInfoUrl).then((response) => {
+              let data = response.data;
+              console.log("data", data);
+              if (data) {
+                let recipeHtml = `
+              <div class="card border-primary">
+              <img class="card-img-top" src="${data.image}" alt="${data.title}">
+              <div class="card-body">
+                <h5 class="card-title">${data.title}</h5>
+              </div>
+            </div>`;
+                console.log("recipehtml", recipeHtml);
+
+                // Append the recipe card HTML to the targeted cell
+                targetCell.insertAdjacentHTML("beforeend", recipeHtml);
+
+                // remove plus sign and previous styling once the recipe is added
+                targetCell.innerHTML = "";
+                targetCell.classList.remove(
+                  "h1 p-5 m-3 border border-secondary"
+                );
+
+                // Remove event listener once the recipe is added
+                targetCell.removeEventListener(
+                  "click",
+                  recipeAreaEventListener
+                );
+
+                // Close window after adding recipe
+                recipeWindow.style.display = "none";
+              }
+            });
+          });
         } else {
           recipeResults.innerHTML = "No recipes found";
         }
