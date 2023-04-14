@@ -160,9 +160,14 @@ function generateSnack2Week() {
 }
 
 // Handle button click to start building meal plan
-
+const thead = document.querySelector("thead");
 $("#new-meal-plan").on("click", function () {
+  if (thead.children.length > 0) {
+    thead.innerHTML = "";
+  }
   generateWeekHeader();
+  $("#reset-btn").css("display", "block");
+  $("#meal_plan_name").css("display", "block");
   $("#Meal-buttons").css("display", "block");
 });
 

@@ -6,22 +6,22 @@ title %} {% block content %}
     Create New Meal Plan
   </button>
 </div>
-<div class="text-center p-4 m-3 d-flex">
-  <form action="/meal-plan-save" method="POST">
-    <input
-      type="text"
-      id="meal_plan_name"
-      name="meal_plan_name"
-      class="p-1"
-      placeholder="Enter Meal Plan Name"
-      required
-    />
-    <table>
-      <thead id="weekdays"></thead>
-      <tbody id="recipe-area"></tbody>
-    </table>
-  </form>
-</div>
+
+<form action="/meal-plan-save" method="POST" class="text-center p-4">
+  <input
+    type="text"
+    id="meal_plan_name"
+    name="meal_plan_name"
+    class="p-1"
+    placeholder="Enter Meal Plan Name"
+    required
+    style="display: none"
+  />
+  <table>
+    <thead id="weekdays"></thead>
+    <tbody id="recipe-area"></tbody>
+  </table>
+</form>
 
 <!-- Meal plan buttons to add Meal Type rows -->
 <div class="text-right m-3" id="Meal-buttons">
@@ -40,6 +40,17 @@ title %} {% block content %}
   <button id="dinner-button" class="btn btn-secondary p-3 m-2 rounded">
     Add Dinner
   </button>
+  <p>
+    <button
+      onclick="location.reload()"
+      id="reset-btn"
+      class="btn btn-danger p-3 m-3 rounded"
+      style="display: none"
+      class="text-right"
+    >
+      Reset
+    </button>
+  </p>
 </div>
 
 <!-- Recipe search window once clicked in meal plan table -->

@@ -289,7 +289,7 @@ def meal_planner():
     else:
         flash('Login first', "danger")
         
-        return render_template('meal_planner.html', user = user)
+    return render_template('meal_planner.html', user = user)
     
     
 @app.route('/meal-plan-save')
