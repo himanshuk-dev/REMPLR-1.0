@@ -7,25 +7,27 @@ let searchCriteria = document.getElementById("search_criteria");
 let nutrientsForm = document.getElementById("nutrients_form");
 let searchForm = document.getElementById("search_recipe_form");
 
-searchCriteria.addEventListener("change", function () {
-  if (searchCriteria.value === "nutrients") {
-    nutrientsForm.style.display = "block";
-    searchForm.style.display = "none";
-    document.getElementById("search_query").required = false;
-    // Add required attribute to nutrients fields when they are shown
-    document.getElementById("min_carbs").required = true;
-    document.getElementById("max_carbs").required = true;
-    document.getElementById("min_protein").required = true;
-  } else {
-    nutrientsForm.style.display = "none";
-    searchForm.style.display = "block";
+if (searchCriteria) {
+  searchCriteria.addEventListener("change", function () {
+    if (searchCriteria.value === "nutrients") {
+      nutrientsForm.style.display = "block";
+      searchForm.style.display = "none";
+      document.getElementById("search_query").required = false;
+      // Add required attribute to nutrients fields when they are shown
+      document.getElementById("min_carbs").required = true;
+      document.getElementById("max_carbs").required = true;
+      document.getElementById("min_protein").required = true;
+    } else {
+      nutrientsForm.style.display = "none";
+      searchForm.style.display = "block";
 
-    // Remove required attribute from nutrients fields when they are hidden
-    document.getElementById("min_carbs").required = false;
-    document.getElementById("max_carbs").required = false;
-    document.getElementById("min_protein").required = false;
-  }
-});
+      // Remove required attribute from nutrients fields when they are hidden
+      document.getElementById("min_carbs").required = false;
+      document.getElementById("max_carbs").required = false;
+      document.getElementById("min_protein").required = false;
+    }
+  });
+}
 
 // Meal Planner UI
 
@@ -57,187 +59,197 @@ function generateWeekHeader() {
   weekdaysHead.append(weekdaysRow);
 }
 
-// Function to generate meal row
-function generateMealWeek(mealType) {
+// Function to generate BreakFast row
+function generateBreakfastWeek() {
   let recipeArea = $("#recipe-area");
-  let mealRow = $("<tr>");
-  let firstCell = $("<td>").text(mealType);
+  let breakfastRow = $("<tr>");
+  let firstCell = $("<td>").text("Breakfast");
   firstCell.css({
     transform: "rotate(-90deg)",
   });
 
-  mealRow.append(firstCell);
+  breakfastRow.append(firstCell);
   for (let day = 0; day < 7; day++) {
-    let mealCell = $("<td>");
-    mealCell.attr("class", "p-5 m-3 border border-secondary");
-    mealRow.append(mealCell);
+    let breakfastCell = $("<td>").attr("id", `b-${day}`);
+    breakfastCell
+      .html("&#x2795;")
+      .attr("class", "h1 p-5 m-3 border border-secondary");
+    breakfastRow.append(breakfastCell);
   }
-  recipeArea.append(mealRow);
+  recipeArea.append(breakfastRow);
 }
 
-// Call the generateMealWeek function with the appropriate meal type when a button is clicked
+// Function to generate Lunch row
+function generateLunchWeek() {
+  let recipeArea = $("#recipe-area");
+  let lunchRow = $("<tr>");
+  let firstCell = $("<td>").text("Lunch");
+  firstCell.css({
+    transform: "rotate(-90deg)",
+  });
 
-$("#breakfast-button").on("click", function () {
-  generateMealWeek("Breakfast");
-});
+  lunchRow.append(firstCell);
+  for (let day = 0; day < 7; day++) {
+    let lunchCell = $("<td>").attr("id", `l-${day}`);
+    lunchCell
+      .html("&#x2795;")
+      .attr("class", "h1 p-5 m-3 border border-secondary");
+    lunchRow.append(lunchCell);
+  }
+  recipeArea.append(lunchRow);
+}
 
-$("#lunch-button").on("click", function () {
-  generateMealWeek("Lunch");
-});
+// Function to generate Dinner row
+function generateDinnerWeek() {
+  let recipeArea = $("#recipe-area");
+  let dinnerRow = $("<tr>");
+  let firstCell = $("<td>").text("Dinner");
+  firstCell.css({
+    transform: "rotate(-90deg)",
+  });
 
-$("#dinner-button").on("click", function () {
-  generateMealWeek("Dinner");
-});
+  dinnerRow.append(firstCell);
+  for (let day = 0; day < 7; day++) {
+    let dinnerCell = $("<td>").attr("id", `d-${day}`);
+    dinnerCell
+      .html("&#x2795;")
+      .attr("class", "h1 p-5 m-3 border border-secondary");
+    dinnerRow.append(dinnerCell);
+  }
+  recipeArea.append(dinnerRow);
+}
 
-$("#snack1-button").on("click", function () {
-  generateMealWeek("Snack1");
-});
+// Function to generate Snack row
+function generateSnack1Week() {
+  let recipeArea = $("#recipe-area");
+  let snackRow = $("<tr>");
+  let firstCell = $("<td>").text("Snack1");
+  firstCell.css({
+    transform: "rotate(-90deg)",
+  });
 
-$("#snack2-button").on("click", function () {
-  generateMealWeek("Snack2");
-});
+  snackRow.append(firstCell);
+  for (let day = 0; day < 7; day++) {
+    let snackCell = $("<td>").attr("id", `s1-${day}`);
+    snackCell
+      .html("&#x2795;")
+      .attr("class", "h1 p-5 m-3 border border-secondary");
+    snackRow.append(snackCell);
+  }
+  recipeArea.append(snackRow);
+}
+
+// Function to generate Snack row
+function generateSnack2Week() {
+  let recipeArea = $("#recipe-area");
+  let snackRow = $("<tr>");
+  let firstCell = $("<td>").text("Snack2");
+  firstCell.css({
+    transform: "rotate(-90deg)",
+  });
+
+  snackRow.append(firstCell);
+  for (let day = 0; day < 7; day++) {
+    let snackCell = $("<td>").attr("id", `s2-${day}`);
+    snackCell
+      .html("&#x2795;")
+      .attr("class", "h1 p-5 m-3 border border-secondary");
+    snackRow.append(snackCell);
+  }
+  recipeArea.append(snackRow);
+}
+
+// Handle button click to start building meal plan
 
 $("#new-meal-plan").on("click", function () {
   generateWeekHeader();
-  $("#Meal-buttons").removeAttr("hidden");
+  $("#Meal-buttons").css("display", "block");
 });
 
-// // Function to generate BreakFast row
-// function generateBreakfastWeek() {
-//   let recipeArea = $("#recipe-area");
-//   let breakfastRow = $("<tr>");
-//   let firstCell = $("<td>").text("Breakfast");
-//   firstCell.css({
-//     transform: "rotate(-90deg)",
-//   });
+$("#breakfast-button").on("click", function () {
+  generateBreakfastWeek();
+});
 
-//   breakfastRow.append(firstCell);
-//   for (let day = 0; day < 7; day++) {
-//     let breakfastCell = $("<td>");
-//     breakfastCell
-//       .html("&#x2795;")
-//       .attr("class", "h1 p-5 m-3 border border-secondary");
-//     breakfastRow.append(breakfastCell);
-//   }
-//   recipeArea.append(breakfastRow);
-// }
+$("#snack1-button").on("click", function () {
+  generateSnack1Week();
+});
 
-// // Function to generate Lunch row
-// function generateLunchWeek() {
-//   let recipeArea = $("#recipe-area");
-//   let lunchRow = $("<tr>");
-//   let firstCell = $("<td>").text("Lunch");
-//   firstCell.css({
-//     transform: "rotate(-90deg)",
-//   });
+$("#lunch-button").on("click", function () {
+  generateLunchWeek();
+});
 
-//   lunchRow.append(firstCell);
-//   for (let day = 0; day < 7; day++) {
-//     let lunchCell = $("<td>");
-//     lunchCell
-//       .html("&#x2795;")
-//       .attr("class", "h1 p-5 m-3 border border-secondary");
-//     lunchRow.append(lunchCell);
-//   }
-//   recipeArea.append(lunchRow);
-// }
+$("#snack2-button").on("click", function () {
+  generateSnack2Week();
+});
 
-// // Function to generate Dinner row
-// function generateDinnerWeek() {
-//   let recipeArea = $("#recipe-area");
-//   let dinnerRow = $("<tr>");
-//   let firstCell = $("<td>").text("Dinner");
-//   firstCell.css({
-//     transform: "rotate(-90deg)",
-//   });
+$("#dinner-button").on("click", function () {
+  generateDinnerWeek();
+});
 
-//   dinnerRow.append(firstCell);
-//   for (let day = 0; day < 7; day++) {
-//     let dinnerCell = $("<td>");
-//     dinnerCell
-//       .html("&#x2795;")
-//       .attr("class", "h1 p-5 m-3 border border-secondary");
-//     dinnerRow.append(dinnerCell);
-//   }
-//   recipeArea.append(dinnerRow);
-// }
+/*
+===============================
+Handle click in meal plan table
+===============================
+*/
 
-// // Function to generate Snack row
-// function generateSnackWeek() {
-//   let recipeArea = $("#recipe-area");
-//   let snackRow = $("<tr>");
-//   let firstCell = $("<td>").text("Snack1");
-//   firstCell.css({
-//     transform: "rotate(-90deg)",
-//   });
+let targetCellId;
 
-//   snackRow.append(firstCell);
-//   for (let day = 0; day < 7; day++) {
-//     let snackCell = $("<td>");
-//     snackCell
-//       .html("&#x2795;")
-//       .attr("class", "h1 p-5 m-3 border border-secondary");
-//     snackRow.append(snackCell);
-//   }
-//   recipeArea.append(snackRow);
-// }
+const recipeArea = document.getElementById("recipe-area");
+const recipeWindow = document.getElementById("recipeWindow");
 
-// Function to generate Snack row
-// function generateSnackWeek() {
-//   let recipeArea = $("#recipe-area");
-//   let snackRow = $("<tr>");
-//   let firstCell = $("<td>").text("Snack1");
-//   firstCell.css({
-//     transform: "rotate(-90deg)",
-//   });
+recipeArea.addEventListener("click", (event) => {
+  const clickedCell = event.target;
+  if (clickedCell.tagName === "TD") {
+    targetCellId = clickedCell.id;
+  }
+  recipeWindow.style.display = "block";
+});
 
-//   snackRow.append(firstCell);
-//   for (let day = 0; day < 7; day++) {
-//     let snackCell = $("<td>");
-//     snackCell
-//       .html("&#x2795;")
-//       .attr("class", "h1 p-5 m-3 border border-secondary");
-//     snackRow.append(snackCell);
-//   }
-//   recipeArea.append(snackRow);
-// }
+/*
+=================================================
+Handle Recipe Search Window on meal planner page
+=================================================
+*/
 
-// class MealRowGenerator {
-//   constructor(mealType) {
-//     this.mealType = mealType;
-//   }
+// Get the close button element
+var closeBtn = document.getElementsByClassName("close")[0];
 
-//   generateRow() {
-//     let recipeArea = $("#recipe-area");
-//     let mealRow = $("<tr>");
-//     let firstCell = $("<td>").text(this.mealType).css({
-//       transform: "rotate(-90deg)",
-//     });
+// When the user clicks the close button, close the Window
+closeBtn.onclick = function () {
+  recipeWindow.style.display = "none";
+};
 
-//     mealRow.append(firstCell);
-//     for (let day = 0; day < 7; day++) {
-//       let mealCell = $("<td>");
-//       mealCell
-//         .html("&#x2795;")
-//         .attr("class", "p-5 m-3 border border-secondary");
-//       mealRow.append(mealCell);
-//     }
-//     recipeArea.append(mealRow);
-//   }
-// }
+// When the user clicks anywhere outside of the Window, close it
+window.onclick = function (event) {
+  if (event.target == recipeWindow) {
+    recipeWindow.style.display = "none";
+  }
+};
 
-// // Create instances of the MealRowGenerator class for each meal type
-
-// const breakfastGenerator = new MealRowGenerator("Breakfast");
-// const lunchGenerator = new MealRowGenerator("Lunch");
-// const dinnerGenerator = new MealRowGenerator("Dinner");
-// const snackGenerator = new MealRowGenerator("Snack");
-
-// // Call the generateRow method of the appropriate generator instance when a button is clicked
-
-// $("#new-meal-plan").on("click", function () {
-//   breakfastGenerator.generateRow();
-//   snackGenerator.generateRow();
-//   lunchGenerator.generateRow();
-//   dinnerGenerator.generateRow();
-// });
+// When the user submits the recipe search form, fetch the search results
+document
+  .getElementById("recipeForm")
+  .addEventListener("submit", function (event) {
+    event.preventDefault();
+    var searchQuery = document.getElementById("searchQuery").value;
+    var apiUrl = `${base_url}recipes/complexSearch?query=${searchQuery}&diet=vegetarian&apiKey=${apiKey}`;
+    axios
+      .get(apiUrl)
+      .then((response) => {
+        var recipeResults = document.getElementById("recipeResults");
+        recipeResults.innerHTML = "";
+        var data = response.data;
+        if (data.results.length > 0) {
+          for (var i = 0; i < data.results.length; i++) {
+            var recipe = data.results[i];
+            var recipeHtml = `<h3>${recipe.title}</h3><img src="${recipe.image}" alt="${recipe.title}"><p>${recipe.summary}</p>`;
+            recipeResults.insertAdjacentHTML("beforeend", recipeHtml);
+          }
+        } else {
+          recipeResults.innerHTML = "No recipes found";
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching recipe search results:", error);
+      });
+  });

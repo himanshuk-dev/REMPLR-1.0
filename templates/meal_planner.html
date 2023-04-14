@@ -1,6 +1,7 @@
 {% extends 'base.html' %} {% block title %}REMPLR | Meal Planner{% endblock
 title %} {% block content %}
 <div class="text-center m-3">
+  <!--- button to Start Meal plan and show header and meal-buttons -->
   <button id="new-meal-plan" class="btn btn-success p-3 m-2 rounded">
     Create New Meal Plan
   </button>
@@ -11,7 +12,9 @@ title %} {% block content %}
     <tbody id="recipe-area"></tbody>
   </table>
 </div>
-<div class="text-right m-3" id="Meal-buttons" hidden>
+
+<!-- Meal plan buttons to add Meal Type rows -->
+<div class="text-right m-3" id="Meal-buttons">
   <button id="breakfast-button" class="btn btn-secondary p-3 m-2 rounded">
     Add BreakFast
   </button>
@@ -28,4 +31,18 @@ title %} {% block content %}
     Add Dinner
   </button>
 </div>
+
+<!-- Recipe search window once clicked in meal plan table -->
+<div id="recipeWindow" class="window">
+  <div class="window-content">
+    <span class="close">&times;</span>
+    <form id="recipeForm">
+      <label for="searchQuery">Search for Recipe:</label>
+      <input type="text" id="searchQuery" name="searchQuery" />
+      <button type="submit">Search</button>
+    </form>
+    <div id="recipeResults"></div>
+  </div>
+</div>
+
 {% endblock %}
