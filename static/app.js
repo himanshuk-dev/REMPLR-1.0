@@ -1,6 +1,14 @@
 const base_url = "https://api.spoonacular.com/";
 let apiKey = "ac0e17f073af4388a91d75452dfa1051";
 
+// Handle Nav bar button
+const navToggle = document.getElementById("nav-toggle");
+const navbarNav = document.getElementById("navbarNav");
+
+navToggle.addEventListener("click", function () {
+  navbarNav.classList.toggle("show");
+});
+
 /** Search for Recipes on homepage **/
 // Show nutrients form when "Nutrients" option is selected
 let searchCriteria = document.getElementById("search_criteria");

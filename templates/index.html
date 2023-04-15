@@ -1,5 +1,10 @@
 {% extends 'base.html' %} {% block title %}REMPLR | Replenish Your Meal{%
-endblock title %} {% block content %}
+endblock title %} {% block content %} {% if not session['nutritionist_id'] and
+not session['client_id'] %}
+<div class="header"></div>
+<div class="info"></div>
+<a href="/Register"><div class="register"></div></a>
+{% endif %}
 
 <!-- Section for Ingredients Search -->
 
