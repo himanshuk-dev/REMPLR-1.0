@@ -140,7 +140,10 @@ Landing Page Elements
   background-image: url("header.jpg");
   background-size: 100%;
   background-repeat: no-repeat;
-  height: 60vh;
+  height: 77vh;
+  margin-bottom: 2%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
+  transition: 0.3s;
 }
 
 .info {
@@ -153,7 +156,10 @@ Landing Page Elements
   background-image: url("register.png");
   background-size: 100%;
   background-repeat: no-repeat;
-  height: 60vh;
+  height: 80vh;
+  margin-bottom: 2%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
+  transition: 0.3s;
 }
 
 /*
