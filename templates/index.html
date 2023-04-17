@@ -1,9 +1,28 @@
 {% extends 'base.html' %} {% block title %}REMPLR | Replenish Your Meal{%
 endblock title %} {% block content %} {% if not session['nutritionist_id'] and
 not session['client_id'] %}
-<div class="header"></div>
-<div class="info"></div>
-<a href="/Register"><div class="register"></div></a>
+<div
+  style="
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
+    transition: 0.3s;
+    margin-bottom: 2%;
+  "
+>
+  <img src="../static/header.gif" alt="header element" style="width: 100%" />
+</div>
+<div>
+  <img src="../static/info.png" alt="information" style="width: 100%" />
+</div>
+<a href="/Register"
+  ><div
+    style="
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
+      transition: 0.3s;
+      margin-bottom: 2%;
+    "
+  >
+    <img src="../static/register.png" alt="register" style="width: 100%" /></div
+></a>
 {% endif %}
 
 <!-- Section for Ingredients Search -->

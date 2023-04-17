@@ -1,11 +1,24 @@
 {% extends 'base.html' %} {% block title %}REMPLR | Register{% endblock title %}
 {%block content %}
-<div class="p-3 text-center">
-  <h1 class="display-1">Register</h1>
-  <p class="lead">Register below to start building your meal plan!</p>
-</div>
-<div class="p-3 text-center">
-  <a href="register/nutritionist"><h3>Register as Nutritionist</h3></a> |
-  <a href="register/client"><h3>Register as Client</h3></a>
+
+<div class="image-container">
+  <a href="register/nutritionist"
+    ><img
+      src="../static/nutritionist.png"
+      style="
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
+        transition: 0.3s;
+        margin-bottom: 2%;
+      "
+  /></a>
+  <a href="register/client"
+    ><img
+      src="../static/client.png"
+      style="
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
+        transition: 0.3s;
+        margin-bottom: 2%;
+      "
+  /></a>
 </div>
 {% endblock content %}

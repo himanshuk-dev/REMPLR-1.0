@@ -28,10 +28,12 @@
     <link rel="stylesheet" href="" />
   </head>
   <body class="bg-light">
-    <nav class="bg-dark d-flex justify-content-between p-2">
-      <a href="/" class="navbar-brand bg-dark text-light p-2"
-        ><h4>REMPLR</h4></a
-      >
+    <nav class="d-flex justify-content-between p-4">
+      <a href="/" class="navbar-brand p-2"><h4>REMPLR</h4></a>
+      <div class="logo">
+        <img src="../static/remplr.png" alt="remplr logo" />
+      </div>
+
       <ul class="nav navbar-nav flex-row float-right">
         {% if session['nutritionist_id'] %}
         <li class="nav-item">
@@ -128,7 +130,10 @@
         </div>
       </div>
     </footer>
-    <div class="copyright">&copy; 2023 REMPLR. All rights reserved.</div>
+    <div class="bottom">
+      <div class="copyright">&copy; 2023 REMPLR. All rights reserved.</div>
+      <div class="dev">Developed with &#10084; by Himanshu</div>
+    </div>
 
     <!-- include jquery -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

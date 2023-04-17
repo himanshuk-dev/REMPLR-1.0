@@ -131,37 +131,56 @@ main {
 }
 
 /* 
-================
-Landing Page Elements
-================ 
+======
+Navbar
+======
 */
-
-.header {
-  background-image: url("header.jpg");
-  background-size: 100%;
-  background-repeat: no-repeat;
-  height: 77vh;
-  margin-bottom: 2%;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
-  transition: 0.3s;
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  font-size: 20px;
+  color: #f7f4f3;
+  background-color: #7a0000;
+}
+nav a {
+  color: white;
 }
 
-.info {
-  background-size: 100%;
-  background-repeat: no-repeat;
-  height: 60vh;
+nav a:hover {
+  color: #dadad9;
 }
 
-.register {
-  background-image: url("register.png");
-  background-size: 100%;
-  background-repeat: no-repeat;
-  height: 80vh;
-  margin-bottom: 2%;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
-  transition: 0.3s;
+.logo {
+  animation: rotate 5s linear infinite;
+  transform-origin: center;
 }
 
+@keyframes rotate {
+  0% {
+    transform: rotate();
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Registration page */
+.image-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.image-container a {
+  text-decoration: none;
+  color: blue;
+}
+.image-container img {
+  float: left;
+
+  width: 100%;
+}
 /*
 ===========================================
 Search Result Cards for Ingredients Search
@@ -333,10 +352,24 @@ footer {
 
 /* Copyright notice styles */
 
-.copyright {
+.bottom {
+  display: flex;
+  justify-content: space-around;
+}
+
+.copyright,
+.dev {
   background-color: #f7f7f7;
   color: #555;
   font-size: 14px;
   text-align: center;
   padding: 10px 0;
+}
+
+.copyright {
+  margin-left: 25%;
+}
+
+.dev {
+  margin-right: 25%;
 }

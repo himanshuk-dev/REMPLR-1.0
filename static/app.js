@@ -1,12 +1,13 @@
 const base_url = "https://api.spoonacular.com/";
 let apiKey = "ac0e17f073af4388a91d75452dfa1051";
 
-// Handle Nav bar button
-const navToggle = document.getElementById("nav-toggle");
-const navbarNav = document.getElementById("navbarNav");
+/** Nav Bar  **/
+const menuIcon = document.querySelector(".menu-icon");
+const menu = document.querySelector(".menu");
 
-navToggle.addEventListener("click", function () {
-  navbarNav.classList.toggle("show");
+menuIcon.addEventListener("click", () => {
+  menuIcon.classList.toggle("open");
+  menu.classList.toggle("open");
 });
 
 /** Search for Recipes on homepage **/
@@ -308,14 +309,11 @@ if (recipeForm) {
                 </div>`;
                 console.log("recipehtml", recipeHtml);
 
-                // Append the recipe card HTML to the targeted cell
-                targetCell.insertAdjacentHTML("beforeend", recipeHtml);
-
                 // remove plus sign and previous styling once the recipe is added
                 targetCell.innerHTML = "";
-                targetCell.classList.remove(
-                  "h1 p-5 m-3 border border-secondary"
-                );
+
+                // Append the recipe card HTML to the targeted cell
+                targetCell.insertAdjacentHTML("beforeend", recipeHtml);
 
                 // Remove event listener once the recipe is added
                 targetCell.removeEventListener(
@@ -325,6 +323,11 @@ if (recipeForm) {
 
                 // Close window after adding recipe
                 recipeWindow.style.display = "none";
+
+                // Remove previous styling
+                // targetCell.classList.remove(
+                //   "h1 p-5 m-3 border border-secondary"
+                // );
               }
             });
           });
