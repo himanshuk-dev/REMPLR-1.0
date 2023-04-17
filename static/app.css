@@ -166,7 +166,11 @@ nav a:hover {
   }
 }
 
-/* Registration page */
+/* 
+=================
+Registration page
+=================
+ */
 .image-container {
   display: flex;
   justify-content: space-between;
@@ -181,6 +185,68 @@ nav a:hover {
 
   width: 100%;
 }
+
+/* 
+==========
+Login page
+==========
+*/
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+}
+
+.login-box {
+  background-color: #fff;
+  padding: 30px;
+
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 5px;
+}
+
+input {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+/* Individual Register page */
+
+.register-box {
+  background-color: #fff;
+  padding: 30px;
+  width: 40%;
+  height: 70%;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
 /*
 ===========================================
 Search Result Cards for Ingredients Search

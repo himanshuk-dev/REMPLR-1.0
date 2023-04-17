@@ -96,7 +96,7 @@
         {% endif %}
       </ul>
     </nav>
-    <div class="container">
+    <div>
       {% for category, msg in get_flashed_messages(with_categories=True) %}
       <div class="alert alert-{{category}}">{{ msg }}</div>
       {% endfor %}
