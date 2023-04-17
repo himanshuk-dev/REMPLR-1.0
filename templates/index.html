@@ -28,28 +28,42 @@ not session['client_id'] %}
 <!-- Section for Ingredients Search -->
 
 {% if session['nutritionist_id'] or session['client_id']%}
-<section>
-  <div class="text-center p-2 m-3">
+<div
+  class="ingredient-search"
+  style="
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
+    transition: 0.3s;
+    margin: 2%;
+  "
+>
+  <div class="text-center p-5" style="width: 50%">
     <h3 for="search_query">Search for ingredients</h3>
     <form method="post" action="/search/ingredients">
       <input
-        class="p-1"
+        class="p-2 mb-3"
         type="text"
         name="search_query"
         id="search_query"
         placeholder="Enter ingredient name..."
         required
       />
-      <button class="btn btn-primary" type="submit">Search</button>
+      <button class="btn-primary" type="submit">Search</button>
     </form>
   </div>
-</section>
+</div>
 
 {% endif %} {% if session['nutritionist_id'] %}
 <!-- Section for Recipes search  -->
 
-<section>
-  <div class="text-center p-2 m-3">
+<section
+  class="recipe-search"
+  style="
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
+    transition: 0.3s;
+    margin: 2%;
+  "
+>
+  <div class="text-center p-3 ml-3">
     <h3 for="search_query">Search for Recipes</h3>
     <form method="post" action="/search/recipes">
       <label for="search_criteria" class="p-1 recipe-search-label"
@@ -118,9 +132,18 @@ not session['client_id'] %}
 </section>
 <section>
   <a href="/meal-planner"
-    ><h5 class="text-center bg-info text-light p-5">
-      Start Designing Meal Plans For Your Clients
-    </h5></a
-  >
+    ><div
+      style="
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
+        transition: 0.3s;
+        margin: 2%;
+      "
+    >
+      <img
+        src="../static/nutritionist-meal-banner.svg"
+        alt="register"
+        style="width: 100%"
+      /></div
+  ></a>
 </section>
 {% endif %} {% endblock content %}
