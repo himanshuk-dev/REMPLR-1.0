@@ -70,19 +70,24 @@ title %} {% block content %} {% if session['nutritionist_id'] %}
   <div class="card-deck row">
     {% for data in results %}
     <div class="col-sm-6 col-md-4 p-3">
-      <div class="card" id="recipe-result">
-        <img
-          class="card-img-top"
-          src="{{data.image}}"
-          alt="{{data.title}}"
-          style="object-fit: contain"
-        />
-        <div class="card-body">
-          <h5 class="card-title">{{data.title}}</h5>
-          <p class="card-text">Enter Recipe information here</p>
+      <form method="POST" action="/recipes/save">
+        <div class="card" id="recipe-result">
+          <img
+            class="card-img-top"
+            src="{{data.image}}"
+            alt="{{data.title}}"
+            style="object-fit: contain"
+          />
+          <div class="card-body">
+            <h5 class="card-title">{{data.title}}</h5>
+            <p class="card-text">Enter Recipe information here</p>
+            <input type="hidden" name="data_name" value="{{data.title}}" />
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
         </div>
-      </div>
+      </form>
     </div>
+
     {% endfor %}
   </div>
   {% endif %}

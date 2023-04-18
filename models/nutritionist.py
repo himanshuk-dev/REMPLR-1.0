@@ -20,6 +20,9 @@ class Nutritionist(db.Model):
     
     # Define one-to-many relationship between user and meal plans
     meal_plan = db.relationship('MealPlan', backref='users')
+    
+    # Define one-to-many relationship between user and recipes
+    recipes = db.relationship('Recipe', backref='users')
 
     def __repr__(self):
         return f'<User {self.email}>'

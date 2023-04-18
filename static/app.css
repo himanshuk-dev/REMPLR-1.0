@@ -25,13 +25,7 @@ Global Styles
   padding: 0;
   box-sizing: border-box;
 }
-/* body {
-  font-family: var(--ff-secondary);
-  background: var(--clr-grey-10);
-  color: var(--clr-grey-1);
-  line-height: 1.5;
-  font-size: 0.875rem;
-} */
+
 ul {
   list-style-type: none;
 }
@@ -143,7 +137,7 @@ nav {
   padding: 15px;
   font-size: 20px;
   color: #f7f4f3;
-  background-color: #7a0000;
+  background-color: #212c31;
 }
 nav a {
   color: white;

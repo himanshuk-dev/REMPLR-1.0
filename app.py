@@ -202,6 +202,7 @@ def search_ingredients():
         response = requests.get(url)
         data = response.json()
         
+        
         results = data['results']
 
         # Render the template with the results
@@ -213,10 +214,10 @@ def search_ingredients():
         
         api_key = "ac0e17f073af4388a91d75452dfa1051"
         search_query = request.form['search_query']
-        url = f'{base_url}/food/ingredients/search?query={search_query}&apiKey={api_key}'
+        url = f'{base_url}food/ingredients/search?query={search_query}&apiKey={api_key}'
         response = requests.get(url)
         data = response.json()
-        
+
         results = data['results']
         
         # Render the template with the results
@@ -248,7 +249,6 @@ def search_recipes():
         if search_criteria == "ingredients":
             
             url = f"{base_url}recipes/complexSearch?query={search_query}&diet=vegetarian&apiKey={api_key}"
-            print(url)
             
         # Search by nutrients | user need to specify min/max carbs, min protein
         elif search_criteria == "nutrients":
@@ -272,7 +272,51 @@ def search_recipes():
         flash('Login first', "danger")
         
         return redirect('/')
+
+
+@app.route('/recipes/save', methods=['POST']) 
+def save_recipes():
+    '''Route to save Recipes from search Results'''
     
+    if session.get('nutritionist_id'):
+        
+        user_id = session['nutritionist_id']
+        user = Nutritionist.query.get_or_404(user_id)
+        
+        # Get user input from form
+        name = request.form["data_name"]
+        
+        new_recipe = Recipe(name = name, user_id = user_id)
+        
+        db.session.add(new_recipe)
+        db.session.commit()
+        
+        flash(f'Saved Recipe: {name}', "success")
+    
+    else:
+        flash('Login first', "danger")
+    
+    return redirect('/')
+
+@app.route("/users/<username>/recipes", methods=["POST"])
+def saved_recipes():
+    '''Route to show Recipes search Results'''
+    
+    if session.get('nutritionist_id'):
+        
+        user_id = session['nutritionist_id']
+        user = Nutritionist.query.get_or_404(user_id)
+        saved_recipes = user.recipes
+        
+        if(save_recipes):
+            for recipe in saved_recipes:
+                url = f"{base_url}recipes/complexSearch?query={recipe.name}&diet=vegetarian&apiKey={api_key}"
+                response = requests.get(url)
+                print('saved recipe?', response)
+                results = response.json()
+        
+        return render_template("saved_recipes.html", user=user, results = results['results'])
+        
     
 # ===============================================
 # ************** Meal Planner Routes ************
@@ -312,7 +356,7 @@ def meal_plan_save():
             td_id = key
             meal_type = meal.td_id[0]
             meal_day = day[td_id[2]]
-            new_meal_plan = MealPlan(name, recipe_id, meal_type, meal_day)
+            new_meal_plan = MealPlan(name = name, recipe_id = recipe_id, meal_type = meal_type, meal_day = meal_day)
             
             db.session.add(new_meal_plan)
             db.session.commit()

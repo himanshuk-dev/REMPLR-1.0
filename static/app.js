@@ -71,9 +71,7 @@ function generateBreakfastWeek() {
   breakfastRow.append(firstCell);
   for (let day = 0; day < 7; day++) {
     let breakfastCell = $("<td>").attr("id", `b-${day}`);
-    breakfastCell
-      .html("&#x2795;")
-      .attr("class", "h1 p-5 m-3 border border-secondary");
+    breakfastCell.html("&#x2795;").attr("class", "h1  border border-secondary");
     breakfastRow.append(breakfastCell);
   }
   recipeArea.append(breakfastRow);
@@ -91,9 +89,7 @@ function generateLunchWeek() {
   lunchRow.append(firstCell);
   for (let day = 0; day < 7; day++) {
     let lunchCell = $("<td>").attr("id", `l-${day}`);
-    lunchCell
-      .html("&#x2795;")
-      .attr("class", "h1 p-5 m-3 border border-secondary");
+    lunchCell.html("&#x2795;").attr("class", "h1  border border-secondary");
     lunchRow.append(lunchCell);
   }
   recipeArea.append(lunchRow);
@@ -111,9 +107,7 @@ function generateDinnerWeek() {
   dinnerRow.append(firstCell);
   for (let day = 0; day < 7; day++) {
     let dinnerCell = $("<td>").attr("id", `d-${day}`);
-    dinnerCell
-      .html("&#x2795;")
-      .attr("class", "h1 p-5 m-3 border border-secondary");
+    dinnerCell.html("&#x2795;").attr("class", "h1  border border-secondary");
     dinnerRow.append(dinnerCell);
   }
   recipeArea.append(dinnerRow);
@@ -131,9 +125,7 @@ function generateSnack1Week() {
   snackRow.append(firstCell);
   for (let day = 0; day < 7; day++) {
     let snackCell = $("<td>").attr("id", `s1-${day}`);
-    snackCell
-      .html("&#x2795;")
-      .attr("class", "h1 p-5 m-3 border border-secondary");
+    snackCell.html("&#x2795;").attr("class", "h1  border border-secondary");
     snackRow.append(snackCell);
   }
   recipeArea.append(snackRow);
@@ -151,9 +143,7 @@ function generateSnack2Week() {
   snackRow.append(firstCell);
   for (let day = 0; day < 7; day++) {
     let snackCell = $("<td>").attr("id", `s2-${day}`);
-    snackCell
-      .html("&#x2795;")
-      .attr("class", "h1 p-5 m-3 border border-secondary");
+    snackCell.html("&#x2795;").attr("class", "h1  border border-secondary");
     snackRow.append(snackCell);
   }
   recipeArea.append(snackRow);
@@ -161,14 +151,26 @@ function generateSnack2Week() {
 
 // Handle button click to start building meal plan
 const thead = document.querySelector("thead");
+
+// Handle second click and so on
 $("#new-meal-plan").on("click", function () {
   if (thead.children.length > 0) {
     thead.innerHTML = "";
   }
+  // show weekdays
   generateWeekHeader();
+
+  // Show reset button
   $("#reset-btn").css("display", "block");
+
+  // Show meal plan name input
   $("#meal_plan_name").css("display", "block");
+
+  // show meal plan row buttons
   $("#Meal-buttons").css("display", "block");
+
+  // Show meal plan save button
+  $("#save-meal-plan").css("display", "block");
 });
 
 $("#breakfast-button").on("click", function () {
@@ -242,6 +244,7 @@ if (window) {
 
 let recipeForm = document.getElementById("recipeForm");
 
+/**** Recipe search in meal planner window ****/
 // When the user submits the recipe search form, fetch the search results
 if (recipeForm) {
   recipeForm.addEventListener("submit", function (event) {
@@ -291,11 +294,9 @@ if (recipeForm) {
               if (recipe) {
                 let recipeHtml = `<div>
                 <input type="hidden" name="${targetCellId}" value="${recipe.id}">
-                  <div class="card border-primary">
                     <img class="card-img-top" src="${recipe.image}" alt="${recipe.title}">
                     <div class="card-body">
                       <h5 class="card-title" data-recipeid="${recipe.id}">${recipe.title}</h5>
-                    </div>
                   </div>
                 </div>`;
                 console.log("recipehtml", recipeHtml);
@@ -314,11 +315,6 @@ if (recipeForm) {
 
                 // Close window after adding recipe
                 recipeWindow.style.display = "none";
-
-                // Remove previous styling
-                // targetCell.classList.remove(
-                //   "h1 p-5 m-3 border border-secondary"
-                // );
               }
             });
           });
