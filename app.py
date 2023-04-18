@@ -346,22 +346,51 @@ def meal_plan_save():
         user_id = session['nutritionist_id']
         user = Nutritionist.query.get_or_404(user_id)
         day = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday",]
-        meal = {'l': 'Lunch',
+        meal = {'b':'Breakfast',
+                'l': 'Lunch',
                 'd': 'Dinner',
                 's1': 'Snack1',
                 's2': 'Snack2'}
         
-        recipe_data = request.form.to_dict()   
-        for key, value in recipe_data.items():
-            name = request.form['meal_plan_name']
-            recipe_id = value
-            td_id = key
-            meal_type = meal.td_id[0]
-            meal_day = day[td_id[2]]
-            new_meal_plan = MealPlan(name = name, recipe_id = recipe_id, meal_type = meal_type, meal_day = meal_day)
+        name = request.form.get('meal_plan_name')
+
+
+        for key, value in request.form.items():
+            if key != 'meal_plan_name':
+                if key.startswith('b-'):
+                    td_id = key.split('-')[1]
+                    meal_type = meal['b']
+                    meal_day = day[int(td_id)]
+                    recipe_id = value
+                    new_meal_plan = MealPlan(name = name, recipe_id = recipe_id, meal_type = meal_type, meal_day = meal_day)
+                    db.session.add(new_meal_plan)
+                    db.session.commit()
+                elif key.startswith('s1-'):
+                    td_id = key.split('-')[1]
+                    meal_type = meal['s1']
+                    meal_day = day[int(td_id)]
+                    recipe_id = value
+                    new_meal_plan = MealPlan(name = name, recipe_id = recipe_id, meal_type = meal_type, meal_day = meal_day)
+                    db.session.add(new_meal_plan)
+                    db.session.commit()
+                elif key.startswith('d-'):
+                    td_id = key.split('-')[1]
+                    meal_type = meal['d']
+                    meal_day = day[int(td_id)]
+                    recipe_id = value
+                    new_meal_plan = MealPlan(name = name, recipe_id = recipe_id, meal_type = meal_type, meal_day = meal_day)
+                    db.session.add(new_meal_plan)
+                    db.session.commit()
+                elif key.startswith('s2-'):
+                    td_id = key.split('-')[1]
+                    meal_type = meal['s2']
+                    meal_day = day[int(td_id)]
+                    recipe_id = value
+                    new_meal_plan = MealPlan(name = name, recipe_id = recipe_id, meal_type = meal_type, meal_day = meal_day)
+                    db.session.add(new_meal_plan)
+                    db.session.commit()
+                
             
-            db.session.add(new_meal_plan)
-            db.session.commit()
         flash('Saved Meal Plan', "success")
     
     else:
