@@ -278,46 +278,71 @@ if (recipeForm) {
           // Get the Add button element
           const addButton = document.querySelector(".btn-primary");
 
-          // Add a click event listener to the Add button
-          addButton.addEventListener("click", (event) => {
-            console.log(event.target.dataset);
-            let recipeId = event.target.dataset.recipeid;
-            // Get the targeted cell element by ID
-            const targetCell = document.getElementById(targetCellId);
+          // Updated event listener for addButton
 
-            const recipeInfoUrl = `${base_url}recipes/${recipeId}/information?apiKey=${apiKey}`;
-            console.log("url", recipeInfoUrl);
+          /*
+          ===============================
+          Handle click in search results
+          ===============================
+          */
 
-            axios.get(recipeInfoUrl).then((response) => {
-              let recipe = response.data;
-              console.log("data", recipe);
-              if (recipe) {
-                let recipeHtml = `<div>
+          let targetButtonId;
+
+          const recipeResultsArea = document.getElementById("recipeResults");
+
+          if (recipeResultsArea) {
+            function recipeResultsEventListener(event) {
+              const clickedButton = event.target;
+              if (clickedButton.tagName === "BUTTON") {
+                targetButtonId = clickedButton.dataset.recipeid;
+                console.log("clicked", targetButtonId);
+
+                const recipeInfoUrl = `${base_url}recipes/${targetButtonId}/information?apiKey=${apiKey}`;
+                console.log("url", recipeInfoUrl);
+
+                axios.get(recipeInfoUrl).then((response) => {
+                  const targetCell = document.getElementById(targetCellId);
+                  let recipe = response.data;
+                  console.log("data", recipe);
+                  if (recipe) {
+                    let recipeHtml = `<div>
                 <input type="hidden" name="${targetCellId}" value="${recipe.id}">
                     <img class="card-img-top" src="${recipe.image}" alt="${recipe.title}">
                     <div class="card-body">
                       <h5 class="card-title" data-recipeid="${recipe.id}">${recipe.title}</h5>
                   </div>
                 </div>`;
-                console.log("recipehtml", recipeHtml);
+                    console.log("recipehtml", recipeHtml);
 
-                // remove plus sign and previous styling once the recipe is added
-                targetCell.innerHTML = "";
+                    // remove plus sign and previous styling once the recipe is added
+                    targetCell.innerHTML = "";
 
-                // Append the recipe card HTML to the targeted cell
-                targetCell.insertAdjacentHTML("beforeend", recipeHtml);
+                    // Append the recipe card HTML to the targeted cell
+                    targetCell.insertAdjacentHTML("beforeend", recipeHtml);
 
-                // Remove event listener once the recipe is added
-                targetCell.removeEventListener(
-                  "click",
-                  recipeAreaEventListener
-                );
+                    // Remove event listener once the recipe is added
+                    targetCell.removeEventListener(
+                      "click",
+                      recipeAreaEventListener
+                    );
 
-                // Close window after adding recipe
-                recipeWindow.style.display = "none";
+                    // Clear the form after adding recipe
+                    recipeForm.reset();
+
+                    // Close window after adding recipe
+                    recipeWindow.style.display = "none";
+                  }
+                });
               }
-            });
-          });
+            }
+
+            console.log("targetButtonId", targetButtonId);
+
+            recipeResultsArea.addEventListener(
+              "click",
+              recipeResultsEventListener
+            );
+          }
         } else {
           recipeResults.innerHTML = "No recipes found";
         }

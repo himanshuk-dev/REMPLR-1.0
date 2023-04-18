@@ -338,7 +338,7 @@ def meal_planner():
     return render_template('meal_planner.html', user = user)
     
     
-@app.route('/meal-plan-save')
+@app.route('/meal-plan-save', methods=['POST'])
 def meal_plan_save():
     '''save Meal Plan to database'''
     
