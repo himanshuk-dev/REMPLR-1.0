@@ -1,0 +1,29 @@
+{% extends 'base.html' %} {% block title %}REMPLR | Saved Recipes{% endblock
+title %} {% block content %} {% if session['nutritionist_id'] %}
+
+<!-- Section to display saved recipes -->
+<section class="d-flex">
+  {% if results %}
+
+  <div class="card-deck row">
+    {% for data in results %}
+    <div class="col-sm-6 col-md-4 p-3">
+      <div class="card" id="recipe-result">
+        <img
+          class="card-img-top"
+          src="{{data.image}}"
+          alt="{{data.title}}"
+          style="object-fit: contain"
+        />
+        <div class="card-body">
+          <h5 class="card-title">{{data.title}}</h5>
+          <p class="card-text">Enter Recipe information here</p>
+        </div>
+      </div>
+    </div>
+
+    {% endfor %}
+  </div>
+  {% endif %}
+</section>
+{% endif %} {% endblock content %}

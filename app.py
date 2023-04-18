@@ -298,24 +298,26 @@ def save_recipes():
     
     return redirect('/')
 
-@app.route("/users/<username>/recipes", methods=["POST"])
-def saved_recipes():
+@app.route("/users/<username>/recipes")
+def saved_recipes(username):
     '''Route to show Recipes search Results'''
     
     if session.get('nutritionist_id'):
         
         user_id = session['nutritionist_id']
         user = Nutritionist.query.get_or_404(user_id)
-        saved_recipes = user.recipes
+        recipes = Recipe.query.filter_by(user_id=user_id).all()
+        results = {'results': []}
         
-        if(save_recipes):
-            for recipe in saved_recipes:
+        if(recipes):
+            for recipe in recipes:
                 url = f"{base_url}recipes/complexSearch?query={recipe.name}&diet=vegetarian&apiKey={api_key}"
                 response = requests.get(url)
-                print('saved recipe?', response)
-                results = response.json()
+                result = response.json()
+                results['results'].extend(result['results'])
+                
         
-        return render_template("saved_recipes.html", user=user, results = results['results'])
+            return render_template("saved_recipes.html", user=user, results = results['results'])
         
     
 # ===============================================
