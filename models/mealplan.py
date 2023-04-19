@@ -11,6 +11,7 @@ class MealPlan(db.Model):
     recipe_id = db.Column(db.Integer, nullable=False)
     meal_type = db.Column(db.String, nullable = False)
     meal_day = db.Column(db.String, nullable = False)
+    user_id = db.Column(db.Integer, db.ForeignKey('nutritionists.id', ondelete="CASCADE"))
 
     def __repr__(self):
         return f'<MealPlan {self.name}>'

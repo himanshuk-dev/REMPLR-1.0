@@ -1,5 +1,5 @@
 {% extends 'base.html' %} {% block title %}REMPLR | Meal Planner{% endblock
-title %} {% block content %}
+title %} {% block content %} {% if session['nutritionist_id'] %}
 <div class="text-center m-3">
   <!--- button to Start Meal plan and show header and meal-buttons -->
   <button id="new-meal-plan" class="btn btn-success p-3 m-2 rounded">
@@ -76,5 +76,4 @@ title %} {% block content %}
     <div class="card-deck" id="recipeResults"></div>
   </div>
 </div>
-
-{% endblock %}
+{% endif %} {% endblock %}

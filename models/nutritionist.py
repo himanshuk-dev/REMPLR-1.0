@@ -16,7 +16,6 @@ class Nutritionist(db.Model):
     last_name = db.Column(db.Text, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
-    meal_plan_id = db.Column(db.Integer, db.ForeignKey('meal_plans.id', ondelete="CASCADE"))
     
     # Define one-to-many relationship between user and meal plans
     meal_plan = db.relationship('MealPlan', backref='users')

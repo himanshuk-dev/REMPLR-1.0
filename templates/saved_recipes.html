@@ -2,28 +2,30 @@
 title %} {% block content %} {% if session['nutritionist_id'] %}
 
 <!-- Section to display saved recipes -->
-<section class="d-flex">
-  {% if results %}
 
-  <div class="card-deck row">
-    {% for data in results %}
-    <div class="col-sm-6 col-md-4 p-3">
-      <div class="card" id="recipe-result">
-        <img
-          class="card-img-top"
-          src="{{data.image}}"
-          alt="{{data.title}}"
-          style="object-fit: contain"
-        />
-        <div class="card-body">
-          <h5 class="card-title">{{data.title}}</h5>
-          <p class="card-text">Enter Recipe information here</p>
-        </div>
+{% if not results %}
+<h4>No recipes saved!</h4>
+{% endif %} {% if results %}
+<div class="text-center">
+  <h1>Your Saved recipes:</h1>
+</div>
+<div class="card-deck row">
+  {% for data in results %}
+  <div class="col-sm-6 col-md-4 p-3">
+    <div class="card" id="recipe-result">
+      <img
+        class="card-img-top"
+        src="{{data.image}}"
+        alt="{{data.title}}"
+        style="object-fit: contain"
+      />
+      <div class="card-body">
+        <h5 class="card-title">{{data.title}}</h5>
+        <p class="card-text">Enter Recipe information here</p>
       </div>
     </div>
-
-    {% endfor %}
   </div>
-  {% endif %}
-</section>
-{% endif %} {% endblock content %}
+
+  {% endfor %}
+</div>
+{% endif %} {% endif %} {% endblock content %}

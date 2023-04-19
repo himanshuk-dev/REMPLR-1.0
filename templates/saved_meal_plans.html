@@ -1,0 +1,131 @@
+{% extends 'base.html' %} {% block title %}REMPLR | Saved Meal Plans{% endblock
+title %} {% block content %} {% if session['nutritionist_id'] %}
+<div class="text-center m-3 bg-light">
+  <div class="text-center">
+    <h3>{{meal_plan_name}}</h3>
+  </div>
+  <table>
+    <thead>
+      <th></th>
+      <th>Monday</th>
+      <th>Tuesday</th>
+      <th>Wednesday</th>
+      <th>Thursday</th>
+      <th>Friday</th>
+      <th>Saturday</th>
+      <th>Sunday</th>
+    </thead>
+    <tbody>
+      {% if breakfast %}
+      <tr>
+        <td style="transform: rotate(-90deg)">Breakfast</td>
+        {% for day in days %}
+        <td class="border border-secondary">
+          <div>
+            <img
+              class="card-img-top"
+              src="{{ breakfast[day]['recipe_image'] }}"
+              alt="{{ breakfast[day]['recipe_name'] }}"
+            />
+            <div class="card-body">
+              <h5 class="card-title">{{ breakfast[day]['recipe_name'] }}</h5>
+            </div>
+          </div>
+        </td>
+        {% endfor %}
+      </tr>
+      {% endif %} {% if lunch %}
+      <tr>
+        <td style="transform: rotate(-90deg)">Lunch</td>
+        {% for day in days %}
+        <td class="border border-secondary">
+          <div>
+            <img
+              class="card-img-top"
+              src="{{ lunch[day]['recipe_image'] }}"
+              alt="{{ lunch[day]['recipe_name'] }}"
+            />
+            <div class="card-body">
+              <h5 class="card-title">{{ lunch[day]['recipe_name'] }}</h5>
+            </div>
+          </div>
+        </td>
+        {% endfor %}
+      </tr>
+      {% endif %} {% if snack1 %}
+      <tr>
+        <td style="transform: rotate(-90deg)">Snack1</td>
+        {% for day in days %}
+        <td class="border border-secondary">
+          <div>
+            <img
+              class="card-img-top"
+              src="{{ snack1[day]['recipe_image'] }}"
+              alt="{{ snack1[day]['recipe_name'] }}"
+            />
+            <div class="card-body">
+              <h5 class="card-title">{{ snack1[day]['recipe_name'] }}</h5>
+            </div>
+          </div>
+        </td>
+        {% endfor %}
+      </tr>
+      {% endif %} {% if lunch %}
+      <tr>
+        <td style="transform: rotate(-90deg)">Lunch</td>
+        {% for day in days %}
+        <td class="border border-secondary">
+          <div>
+            <img
+              class="card-img-top"
+              src="{{ lunch[day]['recipe_image'] }}"
+              alt="{{ lunch[day]['recipe_name'] }}"
+            />
+            <div class="card-body">
+              <h5 class="card-title">{{ lunch[day]['recipe_name'] }}</h5>
+            </div>
+          </div>
+        </td>
+        {% endfor %}
+      </tr>
+      {% endif %} {% if snack2 %}
+      <tr>
+        <td style="transform: rotate(-90deg)">Snack2</td>
+        {% for day in days %}
+        <td class="border border-secondary">
+          <div>
+            <img
+              class="card-img-top"
+              src="{{ snack2[day]['recipe_image'] }}"
+              alt="{{ snack2[day]['recipe_name'] }}"
+            />
+            <div class="card-body">
+              <h5 class="card-title">{{ snack2[day]['recipe_name'] }}</h5>
+            </div>
+          </div>
+        </td>
+        {% endfor %}
+      </tr>
+      {% endif %} {% if dinner %}
+      <tr>
+        <td style="transform: rotate(-90deg)">Dinner</td>
+        {% for day in days %}
+        <td class="border border-secondary">
+          <div>
+            <img
+              class="card-img-top"
+              src="{{ dinner[day]['recipe_image'] }}"
+              alt="{{ dinner[day]['recipe_name'] }}"
+            />
+            <div class="card-body">
+              <h5 class="card-title">{{ dinner[day]['recipe_name'] }}</h5>
+            </div>
+          </div>
+        </td>
+        {% endfor %}
+      </tr>
+      {% endif %}
+    </tbody>
+  </table>
+</div>
+{% endif %} {% endblock %}

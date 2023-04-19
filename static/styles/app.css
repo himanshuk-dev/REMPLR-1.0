@@ -130,6 +130,7 @@ main {
 Navbar
 ======
 */
+
 nav {
   display: flex;
   justify-content: space-between;
@@ -147,7 +148,7 @@ nav a:hover {
   color: #dadad9;
 }
 
-.logo {
+/* .logo {
   animation: rotate 5s linear infinite;
   transform-origin: center;
 }
@@ -159,7 +160,7 @@ nav a:hover {
   100% {
     transform: rotate(360deg);
   }
-}
+} */
 
 /* 
 =================
@@ -244,7 +245,7 @@ Individual Register page
 /* Ingredient Search */
 
 .ingredient-search {
-  background-image: url("../static/ingredient.png");
+  background-image: url("../ingredient.png");
   background-size: 100%;
   background-repeat: no-repeat;
 }
@@ -252,7 +253,7 @@ Individual Register page
 /* recipe Search */
 
 .recipe-search {
-  background-image: url("../static/recipe.png");
+  background-image: url("../recipe.png");
   background-size: 100%;
   background-repeat: no-repeat;
 }
