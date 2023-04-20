@@ -130,15 +130,40 @@ main {
 Navbar
 ======
 */
+#navel {
+  display: none;
+}
 
-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px;
+.nav-btn-container {
+  align-items: right;
+  display: inline-block;
+  cursor: pointer;
+  margin-right: 2%;
+  position: absolute;
+  right: 0;
+  top: 1;
+}
+
+.bar1,
+.bar2,
+.bar3 {
+  width: 35px;
+  height: 5px;
+  background-color: #dadad9;
+  margin: 6px 0;
+  transition: 0.4s;
+}
+
+.navbar {
+  padding: 25px;
   font-size: 20px;
   color: #f7f4f3;
   background-color: #212c31;
+  display: none;
+}
+
+nav ul {
+  margin-right: 5%;
 }
 nav a {
   color: white;
@@ -161,6 +186,18 @@ nav a:hover {
     transform: rotate(360deg);
   }
 } */
+
+/* User Info page/ account page */
+#user-info {
+  background-image: url("../user-info.svg");
+  padding-left: 5%;
+  background-size: auto;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+.info-container {
+  height: 90vh;
+}
 
 /* 
 =================
@@ -187,6 +224,12 @@ Registration page
 Login page
 ==========
 */
+
+#login-page {
+  background-image: url("../login.svg");
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
 
 .container {
   display: flex;
@@ -230,7 +273,7 @@ button:hover {
 /* 
 ====================
 Individual Register page 
-
+====================
 */
 
 .register-box {
@@ -254,6 +297,18 @@ Individual Register page
 
 .recipe-search {
   background-image: url("../recipe.png");
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+
+#register-nutritionist {
+  background-image: url("../register_nutritionist.svg");
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+
+#register-client {
+  background-image: url("../register_client.svg");
   background-size: 100%;
   background-repeat: no-repeat;
 }

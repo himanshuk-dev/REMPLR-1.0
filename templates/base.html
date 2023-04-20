@@ -33,71 +33,66 @@
     <title>{% block title %}{% endblock title %}</title>
   </head>
   <body class="bg-light">
-    <nav class="d-flex justify-content-between p-4">
-      <a href="/" class="navbar-brand p-2"><h4>REMPLR</h4></a>
-
-      <ul class="nav navbar-nav flex-row float-right">
+    <nav class="navbar">
+      <a href="/" class="navbar-brand"><h4>REMPLR</h4></a>
+      <div class="nav-btn-container" id="nav-btn">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+      </div>
+      <ul class="navbar-nav ml-auto" id="navel">
         {% if session['nutritionist_id'] %}
         <li class="nav-item">
-          <a
-            href="/users/{{user.username}}/recipes"
-            class="nav-link text-light pr-3"
+          <a href="/users/{{user.username}}/recipes" class="nav-link"
             >Saved Recipes</a
           >
-          <a
-            href="/users/{{user.username}}/meal-plans"
-            class="nav-link text-light pr-3"
+        </li>
+        <li class="nav-item">
+          <a href="/users/{{user.username}}/meal-plans" class="nav-link"
             >Saved Meal Plans</a
           >
         </li>
         <li class="nav-item">
-          <a href="/users/{{user.username}}/#" class="nav-link text-light pr-3"
-            >My Clients</a
-          >
-        </li>
-
-        <li class="nav-item">
-          <a href="/users/{{user.username}}" class="nav-link text-light pr-3"
-            >My Account</a
-          >
+          <a href="/users/{{user.username}}/#" class="nav-link">My Clients</a>
         </li>
         <li class="nav-item">
-          <a href="/logout" class="nav-link text-light pr-3">Logout</a>
+          <a href="/users/{{user.username}}" class="nav-link">My Account</a>
         </li>
-
+        <li class="nav-item">
+          <a href="/logout" class="nav-link">Logout</a>
+        </li>
         {% elif session['client_id'] %}
         <li class="nav-item">
           <a
             href="/users/{{user.username}}/{{user.ingredients}}"
-            class="nav-link text-light pr-3"
+            class="nav-link"
             >Liked Ingredients</a
           >
+        </li>
+        <li class="nav-item">
           <a
             href="/users/{{user.username}}/{{user.meal_plans}}"
-            class="nav-link text-light pr-3"
+            class="nav-link"
             >My Meal Plans</a
           >
         </li>
-
         <li class="nav-item">
-          <a href="/users/{{user.username}}" class="nav-link text-light pr-3"
-            >My Account</a
-          >
+          <a href="/users/{{user.username}}" class="nav-link">My Account</a>
         </li>
         <li class="nav-item">
-          <a href="/logout" class="nav-link text-light pr-3">Logout</a>
+          <a href="/logout" class="nav-link">Logout</a>
         </li>
-
         {% else %}
         <li class="nav-item">
-          <a href="/login" class="nav-link text-light pr-3">Login</a>
+          <a href="/login" class="nav-link">Login</a>
         </li>
         <li class="nav-item">
-          <a href="/Register" class="nav-link text-light pr-3">Register</a>
+          <a href="/Register" class="nav-link">Register</a>
         </li>
         {% endif %}
       </ul>
     </nav>
+
     <div>
       {% for category, msg in get_flashed_messages(with_categories=True) %}
       <div class="alert alert-{{category}}">{{ msg }}</div>

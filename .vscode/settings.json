@@ -3,6 +3,7 @@
     "jsonify",
     "recipeid",
     "REMPLR",
+    "sess",
     "Spoonacular",
     "SQLALCHEMY",
     "wtforms"

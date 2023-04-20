@@ -29,6 +29,19 @@ if (searchCriteria) {
   });
 }
 
+// Navbar
+
+const navbarToggle = document.getElementById("nav-btn");
+const navbarMenu = document.getElementById("navel");
+
+navbarToggle.addEventListener("click", function () {
+  if (navbarMenu.style.display === "none") {
+    navbarMenu.style.display = "block";
+  } else {
+    navbarMenu.style.display = "none";
+  }
+});
+
 // Meal Planner UI
 
 // Function to generate week header (Monday - Sunday)

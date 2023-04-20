@@ -1,21 +1,23 @@
 {% extends 'base.html' %} {% block title %}REMPLR | Login{% endblock title %}
 {%block content %}
-<div class="container">
-  <div class="login-box">
-  <h1 class="display-1">Login</h1>
-  <p class="lead">Login below! New User? <a href='/Register'>Register!</a></p>
-
-  <form method="POST">
-    {{form.hidden_tag()}} {% for field in form if field.widget.input_type !=
-    'hidden' %}
-    <p>{{field.label}} {{field(class_="form-control")}}</p>
-    {% for error in field.errors %}
-    <span class="form-text text-danger">{{ error }}</span>
-    {% endfor %}
-    </p>
-    {% endfor %}
-  <button class="btn btn-success" type="submit">Login</button>
-</form>
-</div>
+<div id='login-page'>
+  <div class="container">
+    <div class="login-box">
+    <h1 class="display-1">Login</h1>
+    <p class="lead">Login below! New User? <a href='/Register'>Register!</a></p>
+  
+    <form method="POST">
+      {{form.hidden_tag()}} {% for field in form if field.widget.input_type !=
+      'hidden' %}
+      <p>{{field.label}} {{field(class_="form-control")}}</p>
+      {% for error in field.errors %}
+      <span class="form-text text-danger">{{ error }}</span>
+      {% endfor %}
+      </p>
+      {% endfor %}
+    <button class="btn btn-success" type="submit">Login</button>
+  </form>
+  </div>
+  </div>
 </div>
 {% endblock content %}
