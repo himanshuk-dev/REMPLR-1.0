@@ -5,13 +5,13 @@ Meal Plan Creator is a web application that allows nutritionists to create perso
 
 
 
-## Features
-Authentication system: Users can create an account, login and logout.
-Dashboard: Users can view all their meal plans and grocery lists.
-Meal plan creator: Users can create a new meal plan, edit existing ones, and delete them.
-Grocery list creator: Users can generate a grocery list based on the ingredients of a meal plan.
-Recipe database: Users can search for recipes and add them to their meal plans.
-Export feature: Users can export meal plans and grocery lists as a CSV file.
+## Current Features
+**Authentication system:** Users can create an account, login and logout..<br />
+**Meal plan creator:** Users can create a new meal plan<br />
+**Recipe search:** Nutritionists can search for recipes and save them to the database..<br />
+**Saved recipes:** Saved recipes are displayed on a saved recipes page..<br />
+**Ingredient search:** Users can search for ingredients and mark them as liked or disliked..<br />
+**Saved meal plans:** Nutritionists can create a meal plan and save it to the database. Saved meal plans are displayed on a saved meal plans page.
 
 ## Technologies Used
 **Flask:** Python based web framework for building web applications.<br />
