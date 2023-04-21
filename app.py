@@ -10,6 +10,7 @@ from models.recipe import Recipe
 from models.mealplan import MealPlan
 from models.nutritionist import Nutritionist
 from models.client import Client
+from models.instructions import Instructions
 from forms import RegisterForm, LoginForm
 
 app = Flask(__name__)
@@ -353,10 +354,15 @@ def meal_plan_save():
                 's2': 'Snack2'}
         
         name = request.form.get('meal_plan_name')
-
-
+        
+        for data in request.form.items():
+            print('request.form.recipe_name', data)
+        
+        # Recipe information
+        
         for key, value in request.form.items():
             if key != 'meal_plan_name':
+                
                 if key.startswith('b-'):
                     td_id = key.split('-')[1]
                     meal_type = meal['b']
@@ -389,6 +395,22 @@ def meal_plan_save():
                     new_meal_plan = MealPlan(name = name, recipe_id = recipe_id, meal_type = meal_type, meal_day = meal_day, user_id = user_id)
                     db.session.add(new_meal_plan)
                     db.session.commit()
+                
+                # Logic to store corresponding recipes
+                if key == 'recipe_name':
+                    recipe_name = value
+                if key == 'recipe_image':
+                    recipe_image = value
+                if key == 'recipe_instructions':
+                    recipe_instructions = value
+                if key == 'recipe_diet':
+                    recipe_diet = value
+                if key == 'recipe_servings':
+                    recipe_servings = value
+                new_recipe = Recipe(name = recipe_name, image = recipe_image, meal_plan_id = MealPlan.id, user_id = user_id, serving = recipe_servings)
+                new_instructions = Instructions(data = recipe_instructions, recipe_id = Recipe.id)
+                db.session.add_all([new_recipe, new_instructions])
+                db.session.commit()
                 
             
         flash('Saved Meal Plan', "success")
