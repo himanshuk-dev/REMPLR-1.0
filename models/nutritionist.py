@@ -17,11 +17,11 @@ class Nutritionist(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
     
-    # Define one-to-many relationship between user and meal plans
-    meal_plan = db.relationship('MealPlan', backref='users')
+    # Define one-to-many relationship between nutritionists and meal plans
+    meal_plan = db.relationship('MealPlan', backref='nutritionists')
     
     # Define one-to-many relationship between user and recipes
-    recipes = db.relationship('Recipe', backref='users')
+    recipes = db.relationship('Recipe', backref='nutritionists', cascade="all, delete-orphan")
 
     def __repr__(self):
         return f'<User {self.email}>'

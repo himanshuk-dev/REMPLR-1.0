@@ -18,8 +18,11 @@ class Client(db.Model):
     password = db.Column(db.String(120), nullable=False)
     meal_plan_id = db.Column(db.Integer, db.ForeignKey('meal_plans.id', ondelete="CASCADE"))
     
-    # Define one-to-many relationship between user and meal plans
-    meal_plan = db.relationship('MealPlan', backref='clients')
+    # Define one-to-many relationship between client and meal plans
+    meal_plan = db.relationship('MealPlan', backref='clients', cascade="all, delete-orphan")
+    
+    # Define one-to-many relationship between client and ingredients
+    ingredient = db.relationship('Ingredient', backref='clients', cascade="all, delete-orphan")
 
     def __repr__(self):
         return f'<User {self.email}>'
