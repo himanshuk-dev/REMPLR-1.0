@@ -8,7 +8,6 @@ class MealPlan(db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
-    recipe_id = db.Column(db.Integer, nullable=False)
     meal_type = db.Column(db.String, nullable = False)
     meal_day = db.Column(db.String, nullable = False)
     user_id = db.Column(db.Integer, db.ForeignKey('nutritionists.id', ondelete="CASCADE"))
