@@ -1,6 +1,5 @@
-{% extends 'base.html' %} {% block title %}REMPLR | Meal Plan |
-{{meal_plan_name}}{% endblock title %} {% block content %} {% if
-session['nutritionist_id'] %}
+{% extends 'base.html' %} {% block title %}REMPLR | Saved Meal Plans{% endblock
+title %} {% block content %} {% if session['nutritionist_id'] %}
 <div class="text-center m-3 bg-light">
   <div class="text-center">
     <h3>{{meal_plan_name}}</h3>

@@ -10,7 +10,6 @@ from models.recipe import Recipe
 from models.mealplan import MealPlan
 from models.nutritionist import Nutritionist
 from models.client import Client
-from models.instructions import Instructions
 from forms import RegisterForm, LoginForm
 
 app = Flask(__name__)
@@ -354,141 +353,40 @@ def meal_plan_save():
                 's2': 'Snack2'}
         
         name = request.form.get('meal_plan_name')
-        
-        for data in request.form.items():
-            print('request.form', data)
-        
+
+
         for key, value in request.form.items():
             if key != 'meal_plan_name':
-                
                 if key.startswith('b-'):
-                    td_id = key.split('-')
+                    td_id = key.split('-')[1]
                     meal_type = meal['b']
-                    meal_day = day[int(td_id[1])]
-                    if(len(td_id) > 2):
-                        recipe_image = None
-                        recipe_servings = None
-                        # Logic to store corresponding recipes
-                        if td_id[2] == 'name':
-                            recipe_name = value
-                        if td_id[2] == 'image':
-                            recipe_image = value
-                            print('recipe image>>>>>>>>>>>>>>', recipe_image)
-                        if td_id[2] == 'instructions':
-                            recipe_instructions = value
-                        if td_id[2] == 'diet':
-                            recipe_diet = value
-                        if td_id[2] == 'servings':
-                            recipe_servings = value
-                        
-                            new_recipe = Recipe(name = recipe_name, image = recipe_image, meal_plan_id = MealPlan.id, user_id = user_id, serving = recipe_servings)
-                            
-                            # new_instructions = Instructions(data = recipe_instructions, recipe_id = Recipe.id)
-                            db.session.add(new_recipe)
-                            db.session.commit()
-
-                        
-                    new_meal_plan = MealPlan(name = name, meal_type = meal_type, meal_day = meal_day, user_id = user_id)
+                    meal_day = day[int(td_id)]
+                    recipe_id = value
+                    new_meal_plan = MealPlan(name = name, recipe_id = recipe_id, meal_type = meal_type, meal_day = meal_day, user_id = user_id)
                     db.session.add(new_meal_plan)
                     db.session.commit()
-                    
                 elif key.startswith('s1-'):
-                    td_id = key.split('-')
+                    td_id = key.split('-')[1]
                     meal_type = meal['s1']
-                    meal_day = day[int(td_id[1])]
-                    if(len(td_id) > 2):
-                        # Logic to store corresponding recipes
-                        if td_id[2] == 'name':
-                            recipe_name = value
-                        if td_id[2] == 'image':
-                            recipe_image = value
-                        if td_id[2] == 'instructions':
-                            recipe_instructions = value
-                        if td_id[2] == 'diet':
-                            recipe_diet = value
-                        if td_id[2] == 'servings':
-                            recipe_servings = value
-                        new_recipe = Recipe(name = recipe_name, image = recipe_image, serving = recipe_servings , meal_plan_id = MealPlan.id, user_id = user_id)
-                        # new_instructions = Instructions(data = recipe_instructions, recipe_id = Recipe.id)
-                        db.session.add(new_recipe)
-                        db.session.commit()
-                        
-                    new_meal_plan = MealPlan(name = name, meal_type = meal_type, meal_day = meal_day, user_id = user_id)
+                    meal_day = day[int(td_id)]
+                    recipe_id = value
+                    new_meal_plan = MealPlan(name = name, recipe_id = recipe_id, meal_type = meal_type, meal_day = meal_day, user_id = user_id)
                     db.session.add(new_meal_plan)
                     db.session.commit()
-                    
                 elif key.startswith('d-'):
-                    td_id = key.split('-')
+                    td_id = key.split('-')[1]
                     meal_type = meal['d']
-                    meal_day = day[int(td_id[1])]
-                    if(len(td_id) > 2):
-                        # Logic to store corresponding recipes
-                        if td_id[2] == 'name':
-                            recipe_name = value
-                        if td_id[2] == 'image':
-                            recipe_image = value
-                        if td_id[2] == 'instructions':
-                            recipe_instructions = value
-                        if td_id[2] == 'diet':
-                            recipe_diet = value
-                        if td_id[2] == 'servings':
-                            recipe_servings = value
-                        new_recipe = Recipe(name = recipe_name, image = recipe_image, meal_plan_id = MealPlan.id, user_id = user_id, serving = recipe_servings)
-                        # new_instructions = Instructions(data = recipe_instructions, recipe_id = Recipe.id)
-                        db.session.add(new_recipe)
-                        db.session.commit()
-                        
-                    new_meal_plan = MealPlan(name = name, meal_type = meal_type, meal_day = meal_day, user_id = user_id)
+                    meal_day = day[int(td_id)]
+                    recipe_id = value
+                    new_meal_plan = MealPlan(name = name, recipe_id = recipe_id, meal_type = meal_type, meal_day = meal_day, user_id = user_id)
                     db.session.add(new_meal_plan)
                     db.session.commit()
-                    
                 elif key.startswith('s2-'):
-                    td_id = key.split('-')
+                    td_id = key.split('-')[1]
                     meal_type = meal['s2']
-                    meal_day = day[int(td_id[1])]
-                    if(len(td_id) > 2):
-                        # Logic to store corresponding recipes
-                        if td_id[2] == 'name':
-                            recipe_name = value
-                        if td_id[2] == 'image':
-                            recipe_image = value
-                        if td_id[2] == 'instructions':
-                            recipe_instructions = value
-                        if td_id[2] == 'diet':
-                            recipe_diet = value
-                        if td_id[2] == 'servings':
-                            recipe_servings = value
-                        new_recipe = Recipe(name = recipe_name, image = recipe_image, meal_plan_id = MealPlan.id, user_id = user_id, serving = recipe_servings)
-                        # new_instructions = Instructions(data = recipe_instructions, recipe_id = Recipe.id)
-                        db.session.add_all(new_recipe)
-                        db.session.commit()
-                        
-                    new_meal_plan = MealPlan(name = name, meal_type = meal_type, meal_day = meal_day, user_id = user_id)
-                    db.session.add(new_meal_plan)
-                    db.session.commit()
-                
-                elif key.startswith('l-'):
-                    td_id = key.split('-')
-                    meal_type = meal['l']
-                    meal_day = day[int(td_id[1])]
-                    if(len(td_id) > 2):
-                        # Logic to store corresponding recipes
-                        if td_id[2] == 'name':
-                            recipe_name = value
-                        if td_id[2] == 'image':
-                            recipe_image = value
-                        if td_id[2] == 'instructions':
-                            recipe_instructions = value
-                        if td_id[2] == 'diet':
-                            recipe_diet = value
-                        if td_id[2] == 'servings':
-                            recipe_servings = value
-                        new_recipe = Recipe(name = recipe_name, image = recipe_image, meal_plan_id = MealPlan.id, user_id = user_id, serving = recipe_servings)
-                        # new_instructions = Instructions(data = recipe_instructions, recipe_id = Recipe.id)
-                        db.session.add(new_recipe)
-                        db.session.commit()
-                        
-                    new_meal_plan = MealPlan(name = name, meal_type = meal_type, meal_day = meal_day, user_id = user_id)
+                    meal_day = day[int(td_id)]
+                    recipe_id = value
+                    new_meal_plan = MealPlan(name = name, recipe_id = recipe_id, meal_type = meal_type, meal_day = meal_day, user_id = user_id)
                     db.session.add(new_meal_plan)
                     db.session.commit()
                 
@@ -502,40 +400,33 @@ def meal_plan_save():
 
 @app.route("/users/<username>/meal-plans")
 def saved_meal_plans(username):
-    '''Route to show cards for Meal Plans'''
+    '''Route to show Saved Meal Plans'''
     
     if session.get('nutritionist_id'):
         
         user_id = session['nutritionist_id']
         user = Nutritionist.query.get_or_404(user_id)
         
+        days = [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday",
+        ]
+
+    
         names = MealPlan.query.with_entities(MealPlan.name).filter_by(user_id=user_id).distinct().all()
          
         # Convert the list of tuples to a list of strings
         mealplan_names = [name[0] for name in names]
         
-        return render_template('meal_plans.html', mealplan_names = mealplan_names ,user = user)    
-    
-    
-    @app.route('/users/<username>/meal-plans/<meal_plan_name>')
-    def show_meal_plan(meal_plan_name):
-        '''Route to display a meal plan'''
-        if session.get('nutritionist_id'):
-        
-            user_id = session['nutritionist_id']
-            user = Nutritionist.query.get_or_404(user_id)
+        for meal_plan_name in mealplan_names:
             
-            days = [
-                "Monday",
-                "Tuesday",
-                "Wednesday",
-                "Thursday",
-                "Friday",
-                "Saturday",
-                "Sunday",
-            ]
 
-            content = MealPlan.query.with_entities(MealPlan.meal_type, MealPlan.meal_day, MealPlan.recipe_id).filter_by(name=meal_plan_name).distinct().all()
+            content = MealPlan.query.with_entities(MealPlan.meal_type, MealPlan.meal_day, MealPlan.recipe_id ).filter_by(name=meal_plan_name).distinct().all()
             meal_plan_content = [data for data in content]
 
             
@@ -549,45 +440,101 @@ def saved_meal_plans(username):
                 for meal in meal_list:
                     if meal[1] == 'Monday':
                         recipe_id = meal[2]
-                        recipe = Recipe.query.get(recipe_id)
-                        meal_storage['Monday'] = {'recipe_name': recipe.name, 'recipe_image': recipe.image}
+
+                        url = f"{base_url}recipes/{recipe_id}/information?apiKey={api_key}"
+
+                        # Make API request
+                        response = requests.get(url)
+                        result = response.json()
+                        if result:
+                            recipe_name = result['title']
+                            recipe_image = result['image']
+                            meal_storage['Monday'] = {'recipe_name': recipe_name, 'recipe_image': recipe_image}
 
                     if meal[1] == 'Tuesday':
                         recipe_id = meal[2]
-                        recipe = Recipe.query.get(recipe_id)
-                        instructions = Instructions.query.get(recipe_id)
-                        meal_storage['Tuesday'] = {'recipe_name': recipe.name, 'recipe_image': recipe.image, 'recipe_instructions': instructions}
+
+                        url = f"{base_url}recipes/{recipe_id}/information?apiKey={api_key}"
+
+                        # Make API request
+                        response = requests.get(url)
+                        result = response.json()
+                        
+                        if result:
+                             
+                            recipe_name = result['title']
+                            recipe_image = result['image']
+                            meal_storage['Tuesday'] = {'recipe_name': recipe_name, 'recipe_image': recipe_image}
 
                     if meal[1] == 'Wednesday':
                         recipe_id = meal[2]
-                        recipe = Recipe.query.get(recipe_id)
-                        instructions = Instructions.query.get(recipe_id)
-                        meal_storage['Wednesday'] = {'recipe_name': recipe.name, 'recipe_image': recipe.image, 'recipe_instructions': instructions}
+
+                        url = f"{base_url}recipes/{recipe_id}/information?apiKey={api_key}"
+
+                        # Make API request
+                        response = requests.get(url)
+                        result = response.json()
+                        if result:
+                            recipe_name = result['title']
+                            recipe_image = result['image']
+                            meal_storage['Wednesday'] = {'recipe_name': recipe_name, 'recipe_image': recipe_image}
 
                     if meal[1] == 'Thursday':
                         recipe_id = meal[2]
-                        recipe = Recipe.query.get(recipe_id)
-                        instructions = Instructions.query.get(recipe_id)
-                        meal_storage['Thursday'] = {'recipe_name': recipe.name, 'recipe_image': recipe.image, 'recipe_instructions': instructions}
+
+                        url = f"{base_url}recipes/{recipe_id}/information?apiKey={api_key}"
+
+                        # Make API request
+                        response = requests.get(url)
+                        result = response.json()
+
+                        if result:
+                            recipe_name = result['title']
+                            recipe_image = result['image']
+                            meal_storage['Thursday'] = {'recipe_name': recipe_name, 'recipe_image': recipe_image}
 
                     if meal[1] == 'Friday':
                         recipe_id = meal[2]
-                        recipe = Recipe.query.get(recipe_id)
-                        instructions = Instructions.query.get(recipe_id)
-                        meal_storage['Friday'] = {'recipe_name': recipe.name, 'recipe_image': recipe.image, 'recipe_instructions': instructions}
+
+                        url = f"{base_url}recipes/{recipe_id}/information?apiKey={api_key}"
+
+                        # Make API request
+                        response = requests.get(url)
+                        result = response.json()
+
+                        if result:
+                            recipe_name = result['title']
+                            recipe_image = result['image']
+                            meal_storage['Friday'] = {'recipe_name': recipe_name, 'recipe_image': recipe_image}
 
                     if meal[1] == 'Saturday':
                         recipe_id = meal[2]
-                        recipe = Recipe.query.get(recipe_id)
-                        instructions = Instructions.query.get(recipe_id)
-                        meal_storage['Saturday'] = {'recipe_name': recipe.name, 'recipe_image': recipe.image, 'recipe_instructions': instructions}
+
+                        url = f"{base_url}recipes/{recipe_id}/information?apiKey={api_key}"
+
+                        # Make API request
+                        response = requests.get(url)
+                        result = response.json()
+                        
+                        if result:
+                            recipe_name = result['title']
+                            recipe_image = result['image']
+                            meal_storage['Saturday'] = {'recipe_name': recipe_name, 'recipe_image': recipe_image}
 
                     if meal[1] == 'Sunday':
                         recipe_id = meal[2]
-                        recipe = Recipe.query.get(recipe_id)
-                        instructions = Instructions.query.get(recipe_id)
-                        meal_storage['Sunday'] = {'recipe_name': recipe.name, 'recipe_image': recipe.image, 'recipe_instructions': instructions}
+
+                        url = f"{base_url}recipes/{recipe_id}/information?apiKey={api_key}"
                         
+                        # Make API request
+                        response = requests.get(url)
+                        result = response.json()
+                        
+                        if result:
+                            recipe_name = result['title']
+                            recipe_image = result['image']
+                            meal_storage['Sunday'] = {'recipe_name': recipe_name, 'recipe_image': recipe_image}
+
                 return meal_storage
             
             breakfast_storage = get_meal_storage(breakfast_list, {})

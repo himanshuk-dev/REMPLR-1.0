@@ -319,13 +319,7 @@ if (recipeForm) {
                   console.log("data", recipe);
                   if (recipe) {
                     let recipeHtml = `<div>
-                    <input type="hidden" name="${targetCellId}" value="${recipe.id}">
-                    <input type="hidden" name="${targetCellId}-name" value="${recipe.title}">
-                    <input type="hidden" name="${targetCellId}-image" value="${recipe.image}">
-                    <input type="hidden" name="${targetCellId}-instructions" value="${recipe.instructions}">
-                    <input type="hidden" name="${targetCellId}-diet" value="${recipe.diets}">
-                    <input type="hidden" name="${targetCellId}-servings" value="${recipe.servings}">
-                    <input type="hidden" name="${targetCellId}-ingredients" value="${recipe.extendedIngredients}">
+                <input type="hidden" name="${targetCellId}" value="${recipe.id}">
                     <img class="card-img-top" src="${recipe.image}" alt="${recipe.title}">
                     <div class="card-body">
                       <h5 class="card-title" data-recipeid="${recipe.id}">${recipe.title}</h5>

@@ -8,14 +8,13 @@ class Recipe(db.Model):
     __tablename__ = 'recipes'
     
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String, nullable=False)
-    image = db.Column(db.String, nullable = True)
-    serving = db.Column(db.Integer, nullable = True)
-    meal_plan_id = db.Column(db.Integer, db.ForeignKey('meal_plans.id', ondelete="CASCADE"), nullable = True)
+    name = db.Column(db.String(100), nullable=False)
+    instructions = db.Column(db.Text, nullable=True)
+    ingredient_id = db.Column(db.Integer, db.ForeignKey('ingredients.id', ondelete="CASCADE"))
     user_id = db.Column(db.Integer, db.ForeignKey('nutritionists.id', ondelete="CASCADE"))
 
-    # Define one-to-many relationship between recipes and meal_plans
-    ingredient = db.relationship('Ingredient', backref='recipes', cascade="all, delete-orphan")
+    # Define one-to-many relationship between ingredients and recipes
+    ingredient = db.relationship('Ingredient', backref='recipes')
 
     def __repr__(self):
         return f'<Recipe {self.name}>'
