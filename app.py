@@ -11,6 +11,7 @@ from models.mealplan import MealPlan
 from models.nutritionist import Nutritionist
 from models.client import Client
 from forms import RegisterForm, LoginForm
+import os
 
 app = Flask(__name__)
 app.app_context().push() 
