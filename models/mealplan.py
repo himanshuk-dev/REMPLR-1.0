@@ -13,10 +13,5 @@ class MealPlan(db.Model):
     meal_day = db.Column(db.String, nullable = False)
     user_id = db.Column(db.Integer, db.ForeignKey('nutritionists.id', ondelete="CASCADE"))
     
-    # One to many relationship between meal_plans and recipes
-    recipe = db.relationship('Recipe', backref='meal_plans', cascade="all, delete-orphan")
-    
-    meal_plans = db.relationship('MealPlan', backref='recipes')
-
     def __repr__(self):
         return f'<MealPlan {self.name}>'
