@@ -13,7 +13,7 @@ from models.client import Client
 from forms import RegisterForm, LoginForm
 
 app = Flask(__name__)
-# app.app_context().push() 
+app.app_context().push() 
 
 # Set app configuration using sqlAlchemy
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///REMPLR'
