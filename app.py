@@ -11,25 +11,18 @@ from models.mealplan import MealPlan
 from models.nutritionist import Nutritionist
 from models.client import Client
 from forms import RegisterForm, LoginForm
-import os
 
 app = Flask(__name__)
 app.app_context().push() 
 
 # Set app configuration using sqlAlchemy
-try:
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL").replace("://", "ql://", 1)
-except AttributeError:
-    # this is used locally and used to run tests
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///REMPLR'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///REMPLR'
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = "lounge-BARBICAN-3158!"
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
 connect_db(app)
-
-db.create_all()
 
 # Show debug toolbar
 toolbar = DebugToolbarExtension(app)

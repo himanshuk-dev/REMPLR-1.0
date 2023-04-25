@@ -15,7 +15,6 @@ class Recipe(db.Model):
 
     # Define one-to-many relationship between ingredients and recipes
     ingredient = db.relationship('Ingredient', backref='recipes')
-    meal_plans = db.relationship('MealPlan', backref='recipes')
 
     def __repr__(self):
         return f'<Recipe {self.name}>'
