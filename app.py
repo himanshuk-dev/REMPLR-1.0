@@ -28,7 +28,9 @@ app.config['SECRET_KEY'] = "lounge-BARBICAN-3158!"
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
 connect_db(app)
+
 db.create_all()
+
 # Show debug toolbar
 toolbar = DebugToolbarExtension(app)
 
