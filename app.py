@@ -14,7 +14,6 @@ from forms import RegisterForm, LoginForm
 import os
 
 app = Flask(__name__)
-app.app_context().push() 
 
 # Set app configuration using sqlAlchemy
 try:
@@ -27,12 +26,12 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = "lounge-BARBICAN-3158!"
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
-connect_db(app)
-db.create_all()
-
 # Show debug toolbar
 toolbar = DebugToolbarExtension(app)
 
+with app.app_context():
+    connect_db(app)
+    db.create_all()
 
 # Base URL
 base_url = 'https://api.spoonacular.com/'
