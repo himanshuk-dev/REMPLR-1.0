@@ -17,7 +17,7 @@ app = Flask(__name__)
 
 # Set app configuration using sqlAlchemy
 try:
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://teupvlkf:3X6ar0EaQJllqX-D26t_gBSVEDm7VeCI@mahmud.db.elephantsql.com/teupvlkf'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://teupvlkf:3X6ar0EaQJllqX-D26t_gBSVEDm7VeCI@mahmud.db.elephantsql.com/teupvlkf'
 except AttributeError:
     # this is used locally and used to run tests
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///REMPLR'
