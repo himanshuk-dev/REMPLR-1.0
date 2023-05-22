@@ -1,4 +1,4 @@
-# TO DO: Later : Change ingredients search and recipe search forms to WTForms 
+# TODO: Later : Change ingredients search and recipe search forms to WTForms 
 
 from flask import Flask, render_template, flash, session, redirect, request
 import requests
@@ -402,10 +402,37 @@ def meal_plan_save():
         flash('Login first', "danger")
     
     return redirect('/meal-planner')
-
+# ========================================================
+# ********************************************************
 @app.route("/users/<username>/meal-plans")
 def saved_meal_plans(username):
     '''Route to show Saved Meal Plans'''
+    
+    if session.get('nutritionist_id'):
+        
+        user_id = session['nutritionist_id']
+        user = Nutritionist.query.get_or_404(user_id)
+            
+        names = MealPlan.query.with_entities(MealPlan.name).filter_by(user_id=user_id).distinct().all()
+        print('Meal Plans>>>>>>', names)
+         
+        # Convert the list of tuples to a list of strings
+        mealplan_names = [name[0] for name in names]
+        
+        return render_template('saved_meal_plans.html', user = user, mealplan_names = mealplan_names)    
+    else:
+        flash('Login first', "danger")
+        
+    return redirect('/login')
+    
+
+    
+    # ************************************************
+    # ================================================
+
+@app.route("/users/<username>/meal-plan/<meal_plan_id>")
+def saved_meal_plan(username, meal_plan_id):
+    '''Route to show Saved Meal Plan'''
     
     if session.get('nutritionist_id'):
         
@@ -421,7 +448,6 @@ def saved_meal_plans(username):
             "Saturday",
             "Sunday",
         ]
-
     
         names = MealPlan.query.with_entities(MealPlan.name).filter_by(user_id=user_id).distinct().all()
          
@@ -547,6 +573,10 @@ def saved_meal_plans(username):
             lunch_storage = get_meal_storage(lunch_list, {})
             snack2_storage = get_meal_storage(snack2_list, {})
             dinner_storage = get_meal_storage(dinner_list, {})
-            return render_template('saved_meal_plans.html', breakfast = breakfast_storage ,snack1 = snack1_storage, lunch = lunch_storage, snack2 = snack2_storage, dinner = dinner_storage, user = user, days = days, meal_plan_name = meal_plan_name)    
+            return render_template('saved_meal_plan.html', breakfast = breakfast_storage ,snack1 = snack1_storage, lunch = lunch_storage, snack2 = snack2_storage, dinner = dinner_storage, user = user, days = days, meal_plan_name = meal_plan_name)    
         
-        return render_template('saved_meal_plans.html', breakfast = breakfast_storage ,snack1 = snack1_storage, lunch = lunch_storage, snack2 = snack2_storage, dinner = dinner_storage, user = user, days = days)    
+        return render_template('saved_meal_plan.html', breakfast = breakfast_storage ,snack1 = snack1_storage, lunch = lunch_storage, snack2 = snack2_storage, dinner = dinner_storage, user = user, days = days)    
+    else:
+        flash('Login first', "danger")
+        
+    return redirect('/login')
