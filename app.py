@@ -408,8 +408,8 @@ def meal_plan_save():
         flash('Login first', "danger")
     
     return redirect('/meal-planner')
-# ========================================================
-# ********************************************************
+
+
 @app.route("/users/<username>/meal-plans")
 def saved_meal_plans(username):
     '''Route to show Saved Meal Plans'''
@@ -418,13 +418,23 @@ def saved_meal_plans(username):
         
         user_id = session['nutritionist_id']
         user = Nutritionist.query.get_or_404(user_id)
+        
+        image_urls = [
+            'https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+            '../static/2.svg',
+            '../static/3.svg',
+            '../static/4.svg',
+            '../static/5.svg',
+            '../static/6.svg',
+            '../static/7.svg',
+        ]
             
         names = MealPlan.query.with_entities(MealPlan.name).filter_by(user_id=user_id).distinct().all()
          
         # Convert the list of tuples to a list of strings
         mealplan_names = [name[0] for name in names]
         
-        return render_template('saved_meal_plans.html', user = user, mealplan_names = mealplan_names)    
+        return render_template('saved_meal_plans.html', user = user, mealplan_names = mealplan_names,image_urls=image_urls)    
     else:
         flash('Login first', "danger")
         
@@ -432,8 +442,6 @@ def saved_meal_plans(username):
     
 
     
-    # ************************************************
-    # ================================================
 
 @app.route("/users/<username>/meal-plans/<meal_plan_name>")
 def saved_meal_plan(username, meal_plan_name):
