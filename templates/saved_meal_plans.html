@@ -1,15 +1,21 @@
 {% extends 'base.html' %} {% block title %}REMPLR | Saved Meal Plans{% endblock
 title %} {% block content %} {% if session['nutritionist_id'] %}
-<div class="row">
-  <div class="col-sm-6 mb-3 mb-sm-0 p-5 text-center">
+<div id="meal-plans">
+  <h2 class="text-center p-4">Your Saved Meal Plans</h2>
+  <div class="row">
     {% for meal_plan in mealplan_names %}
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">{{meal_plan}}</h5>
-        <p class="card-text">
-          With supporting text below as a natural lead-in to additional content.
-        </p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
+
+    <div class="col-sm-3 mb-3 mb-sm-3 p-5 text-center">
+      <div class="card m-4 p-4 w-100" id="meal-plan-card">
+        <div class="card-body">
+          <h5 class="card-title">{{meal_plan}}</h5>
+          <p class="card-text">Meal Plan details here</p>
+          <a
+            href="/users/{{user.username}}/meal-plans/{{meal_plan}}"
+            class="btn btn-primary"
+            >View Meal Plan</a
+          >
+        </div>
       </div>
     </div>
     {% endfor %}

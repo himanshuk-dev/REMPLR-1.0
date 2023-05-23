@@ -158,8 +158,14 @@ def login():
 def user_info(username):
     '''Show user details page'''
     
-    user = Nutritionist.query.filter_by(username = username).first() or Client.query.filter_by(username = username).first()
-    return render_template('user_info.html', user = user)
+    if session.get('nutritionist_id') or session.get('client_id'):
+        user = Nutritionist.query.filter_by(username = username).first() or Client.query.filter_by(username = username).first()
+        return render_template('user_info.html', user = user)
+
+    else:
+            flash('Login first', "danger")
+            
+            return redirect('/login')
 
 @app.route('/logout')
 def logout():
@@ -414,7 +420,6 @@ def saved_meal_plans(username):
         user = Nutritionist.query.get_or_404(user_id)
             
         names = MealPlan.query.with_entities(MealPlan.name).filter_by(user_id=user_id).distinct().all()
-        print('Meal Plans>>>>>>', names)
          
         # Convert the list of tuples to a list of strings
         mealplan_names = [name[0] for name in names]
@@ -430,8 +435,8 @@ def saved_meal_plans(username):
     # ************************************************
     # ================================================
 
-@app.route("/users/<username>/meal-plan/<meal_plan_id>")
-def saved_meal_plan(username, meal_plan_id):
+@app.route("/users/<username>/meal-plans/<meal_plan_name>")
+def saved_meal_plan(username, meal_plan_name):
     '''Route to show Saved Meal Plan'''
     
     if session.get('nutritionist_id'):
@@ -449,133 +454,125 @@ def saved_meal_plan(username, meal_plan_id):
             "Sunday",
         ]
     
-        names = MealPlan.query.with_entities(MealPlan.name).filter_by(user_id=user_id).distinct().all()
-         
-        # Convert the list of tuples to a list of strings
-        mealplan_names = [name[0] for name in names]
+
+        content = MealPlan.query.with_entities(MealPlan.meal_type, MealPlan.meal_day, MealPlan.recipe_id ).filter_by(name=meal_plan_name).distinct().all()
+        meal_plan_content = [data for data in content]
+
         
-        for meal_plan_name in mealplan_names:
-            
-
-            content = MealPlan.query.with_entities(MealPlan.meal_type, MealPlan.meal_day, MealPlan.recipe_id ).filter_by(name=meal_plan_name).distinct().all()
-            meal_plan_content = [data for data in content]
-
-            
-            breakfast_list = [item for item in meal_plan_content if item[0] == 'Breakfast']
-            snack1_list = [item for item in meal_plan_content if item[0] == 'Snack1']
-            lunch_list = [item for item in meal_plan_content if item[0] == 'Lunch']
-            snack2_list = [item for item in meal_plan_content if item[0] == 'Snack2']
-            dinner_list = [item for item in meal_plan_content if item[0] == 'Dinner']
-            
-            def get_meal_storage(meal_list, meal_storage):
-                for meal in meal_list:
-                    if meal[1] == 'Monday':
-                        recipe_id = meal[2]
-
-                        url = f"{base_url}recipes/{recipe_id}/information?apiKey={api_key}"
-
-                        # Make API request
-                        response = requests.get(url)
-                        result = response.json()
-                        if result:
-                            recipe_name = result['title']
-                            recipe_image = result['image']
-                            meal_storage['Monday'] = {'recipe_name': recipe_name, 'recipe_image': recipe_image}
-
-                    if meal[1] == 'Tuesday':
-                        recipe_id = meal[2]
-
-                        url = f"{base_url}recipes/{recipe_id}/information?apiKey={api_key}"
-
-                        # Make API request
-                        response = requests.get(url)
-                        result = response.json()
-                        
-                        if result:
-                             
-                            recipe_name = result['title']
-                            recipe_image = result['image']
-                            meal_storage['Tuesday'] = {'recipe_name': recipe_name, 'recipe_image': recipe_image}
-
-                    if meal[1] == 'Wednesday':
-                        recipe_id = meal[2]
-
-                        url = f"{base_url}recipes/{recipe_id}/information?apiKey={api_key}"
-
-                        # Make API request
-                        response = requests.get(url)
-                        result = response.json()
-                        if result:
-                            recipe_name = result['title']
-                            recipe_image = result['image']
-                            meal_storage['Wednesday'] = {'recipe_name': recipe_name, 'recipe_image': recipe_image}
-
-                    if meal[1] == 'Thursday':
-                        recipe_id = meal[2]
-
-                        url = f"{base_url}recipes/{recipe_id}/information?apiKey={api_key}"
-
-                        # Make API request
-                        response = requests.get(url)
-                        result = response.json()
-
-                        if result:
-                            recipe_name = result['title']
-                            recipe_image = result['image']
-                            meal_storage['Thursday'] = {'recipe_name': recipe_name, 'recipe_image': recipe_image}
-
-                    if meal[1] == 'Friday':
-                        recipe_id = meal[2]
-
-                        url = f"{base_url}recipes/{recipe_id}/information?apiKey={api_key}"
-
-                        # Make API request
-                        response = requests.get(url)
-                        result = response.json()
-
-                        if result:
-                            recipe_name = result['title']
-                            recipe_image = result['image']
-                            meal_storage['Friday'] = {'recipe_name': recipe_name, 'recipe_image': recipe_image}
-
-                    if meal[1] == 'Saturday':
-                        recipe_id = meal[2]
-
-                        url = f"{base_url}recipes/{recipe_id}/information?apiKey={api_key}"
-
-                        # Make API request
-                        response = requests.get(url)
-                        result = response.json()
-                        
-                        if result:
-                            recipe_name = result['title']
-                            recipe_image = result['image']
-                            meal_storage['Saturday'] = {'recipe_name': recipe_name, 'recipe_image': recipe_image}
-
-                    if meal[1] == 'Sunday':
-                        recipe_id = meal[2]
-
-                        url = f"{base_url}recipes/{recipe_id}/information?apiKey={api_key}"
-                        
-                        # Make API request
-                        response = requests.get(url)
-                        result = response.json()
-                        
-                        if result:
-                            recipe_name = result['title']
-                            recipe_image = result['image']
-                            meal_storage['Sunday'] = {'recipe_name': recipe_name, 'recipe_image': recipe_image}
-
-                return meal_storage
-            
-            breakfast_storage = get_meal_storage(breakfast_list, {})
-            snack1_storage = get_meal_storage(snack1_list, {})
-            lunch_storage = get_meal_storage(lunch_list, {})
-            snack2_storage = get_meal_storage(snack2_list, {})
-            dinner_storage = get_meal_storage(dinner_list, {})
-            return render_template('saved_meal_plan.html', breakfast = breakfast_storage ,snack1 = snack1_storage, lunch = lunch_storage, snack2 = snack2_storage, dinner = dinner_storage, user = user, days = days, meal_plan_name = meal_plan_name)    
+        breakfast_list = [item for item in meal_plan_content if item[0] == 'Breakfast']
+        snack1_list = [item for item in meal_plan_content if item[0] == 'Snack1']
+        lunch_list = [item for item in meal_plan_content if item[0] == 'Lunch']
+        snack2_list = [item for item in meal_plan_content if item[0] == 'Snack2']
+        dinner_list = [item for item in meal_plan_content if item[0] == 'Dinner']
         
-        return render_template('saved_meal_plan.html', breakfast = breakfast_storage ,snack1 = snack1_storage, lunch = lunch_storage, snack2 = snack2_storage, dinner = dinner_storage, user = user, days = days)    
+        def get_meal_storage(meal_list, meal_storage):
+            for meal in meal_list:
+                if meal[1] == 'Monday':
+                    recipe_id = meal[2]
+
+                    url = f"{base_url}recipes/{recipe_id}/information?apiKey={api_key}"
+
+                    # Make API request
+                    response = requests.get(url)
+                    result = response.json()
+                    if result:
+                        recipe_name = result['title']
+                        recipe_image = result['image']
+                        meal_storage['Monday'] = {'recipe_name': recipe_name, 'recipe_image': recipe_image}
+
+                if meal[1] == 'Tuesday':
+                    recipe_id = meal[2]
+
+                    url = f"{base_url}recipes/{recipe_id}/information?apiKey={api_key}"
+
+                    # Make API request
+                    response = requests.get(url)
+                    result = response.json()
+                    
+                    if result:
+                            
+                        recipe_name = result['title']
+                        recipe_image = result['image']
+                        meal_storage['Tuesday'] = {'recipe_name': recipe_name, 'recipe_image': recipe_image}
+
+                if meal[1] == 'Wednesday':
+                    recipe_id = meal[2]
+
+                    url = f"{base_url}recipes/{recipe_id}/information?apiKey={api_key}"
+
+                    # Make API request
+                    response = requests.get(url)
+                    result = response.json()
+                    if result:
+                        recipe_name = result['title']
+                        recipe_image = result['image']
+                        meal_storage['Wednesday'] = {'recipe_name': recipe_name, 'recipe_image': recipe_image}
+
+                if meal[1] == 'Thursday':
+                    recipe_id = meal[2]
+
+                    url = f"{base_url}recipes/{recipe_id}/information?apiKey={api_key}"
+
+                    # Make API request
+                    response = requests.get(url)
+                    result = response.json()
+
+                    if result:
+                        recipe_name = result['title']
+                        recipe_image = result['image']
+                        meal_storage['Thursday'] = {'recipe_name': recipe_name, 'recipe_image': recipe_image}
+
+                if meal[1] == 'Friday':
+                    recipe_id = meal[2]
+
+                    url = f"{base_url}recipes/{recipe_id}/information?apiKey={api_key}"
+
+                    # Make API request
+                    response = requests.get(url)
+                    result = response.json()
+
+                    if result:
+                        recipe_name = result['title']
+                        recipe_image = result['image']
+                        meal_storage['Friday'] = {'recipe_name': recipe_name, 'recipe_image': recipe_image}
+
+                if meal[1] == 'Saturday':
+                    recipe_id = meal[2]
+
+                    url = f"{base_url}recipes/{recipe_id}/information?apiKey={api_key}"
+
+                    # Make API request
+                    response = requests.get(url)
+                    result = response.json()
+                    
+                    if result:
+                        recipe_name = result['title']
+                        recipe_image = result['image']
+                        meal_storage['Saturday'] = {'recipe_name': recipe_name, 'recipe_image': recipe_image}
+
+                if meal[1] == 'Sunday':
+                    recipe_id = meal[2]
+
+                    url = f"{base_url}recipes/{recipe_id}/information?apiKey={api_key}"
+                    
+                    # Make API request
+                    response = requests.get(url)
+                    result = response.json()
+                    
+                    if result:
+                        recipe_name = result['title']
+                        recipe_image = result['image']
+                        meal_storage['Sunday'] = {'recipe_name': recipe_name, 'recipe_image': recipe_image}
+
+            return meal_storage
+        
+        breakfast_storage = get_meal_storage(breakfast_list, {})
+        snack1_storage = get_meal_storage(snack1_list, {})
+        lunch_storage = get_meal_storage(lunch_list, {})
+        snack2_storage = get_meal_storage(snack2_list, {})
+        dinner_storage = get_meal_storage(dinner_list, {})
+        return render_template('saved_meal_plan.html', breakfast = breakfast_storage ,snack1 = snack1_storage, lunch = lunch_storage, snack2 = snack2_storage, dinner = dinner_storage, user = user, days = days, meal_plan_name = meal_plan_name)    
+        
     else:
         flash('Login first', "danger")
         
