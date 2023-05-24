@@ -1,0 +1,25 @@
+{% extends 'base.html' %} {% block title %}REMPLR | Saved Meal Plan |
+{{meal_plan_name}}{% endblock title %} {% block content %} {% if
+session['nutritionist_id'] %}
+<div id="loading">
+  <img src="/static/loading.gif" style="width: 100%" alt="Loading..." />
+</div>
+<script>
+  // Fetch meal plan data after the page has loaded
+  window.onload = function () {
+    let xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        // Update the page with the received data
+        document.getElementById("loading").innerHTML = this.responseText;
+      }
+    };
+    xhttp.open(
+      "GET",
+      "/users/{{ username }}/meal-plans/{{ meal_plan_name }}/data",
+      true
+    );
+    xhttp.send();
+  };
+</script>
+{% endif %} {% endblock %}

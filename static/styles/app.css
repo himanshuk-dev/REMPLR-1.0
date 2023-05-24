@@ -530,3 +530,13 @@ footer {
   background-size: cover;
   background-repeat: no-repeat;
 }
+
+/* Individual Saved meal plan  */
+
+#meal-plan {
+  background-image: url("../meal-plan-background.svg");
+  padding: 5%;
+  background-size: auto;
+  background-size: cover;
+  background-repeat: no-repeat;
+}

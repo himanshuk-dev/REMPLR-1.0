@@ -12,6 +12,7 @@ from models.nutritionist import Nutritionist
 from models.client import Client
 from forms import RegisterForm, LoginForm
 import os
+import time
 
 app = Flask(__name__)
 
@@ -440,12 +441,21 @@ def saved_meal_plans(username):
         
     return redirect('/login')
     
-
-    
-
 @app.route("/users/<username>/meal-plans/<meal_plan_name>")
 def saved_meal_plan(username, meal_plan_name):
+    if session.get('nutritionist_id'):
+        user_id = session['nutritionist_id']
+        user = Nutritionist.query.get_or_404(user_id)
+        return render_template('loading.html', username=username, meal_plan_name=meal_plan_name, user = user)
+    else:
+        flash('Login first', "danger")
+        return redirect('/login')
+    
+
+@app.route("/users/<username>/meal-plans/<meal_plan_name>/data")
+def saved_meal_plan_data(username, meal_plan_name):
     '''Route to show Saved Meal Plan'''
+    time.sleep(2)
     
     if session.get('nutritionist_id'):
         
