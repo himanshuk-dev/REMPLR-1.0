@@ -330,6 +330,11 @@ def saved_recipes(username):
                 
         
             return render_template("saved_recipes.html", user=user, results = results['results'])
+    else:
+        
+        flash('Login first', "danger")
+        
+        return redirect('/')
         
     
 # ===============================================
